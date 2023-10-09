@@ -1,7 +1,9 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { SignInForm } from "../types/typings";
-
+import { useAppDispatch } from "../redux/hooks";
+import { setUser } from "../redux/features/userSlice";
 function useSignIn() {
+  const dispatch = useAppDispatch();
   const initialState = {
     password: "",
     email: "",
@@ -43,6 +45,7 @@ function useSignIn() {
       }
       if (data.success) {
         setError("");
+        dispatch(setUser(data.user));
         setAuthForm(initialState);
       }
     } catch (error) {

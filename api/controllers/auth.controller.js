@@ -41,7 +41,7 @@ const signin = async (req, res) => {
 
     user = await User.findOne({ email }).select("-password")
     // response to client
-    res.cookie('access_token', token, { httpOnly: true }).status(StatusCodes.OK).json(user)
+    res.cookie('access_token', token, { httpOnly: true }).status(StatusCodes.OK).json({ message: 'Signed In Successfully', user, success: true })
 
 }
 module.exports = { signup, signin }
