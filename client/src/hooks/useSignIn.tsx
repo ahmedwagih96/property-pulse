@@ -1,14 +1,12 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import { SignUpForm } from "../types/typings";
-import { useNavigate } from "react-router-dom";
-function useAuth() {
-  const navigate = useNavigate();
+import { SignInForm } from "../types/typings";
+
+function useSignIn() {
   const initialState = {
-    username: "",
     password: "",
     email: "",
   };
-  const [authForm, setAuthForm] = useState<SignUpForm>(initialState);
+  const [authForm, setAuthForm] = useState<SignInForm>(initialState);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState("");
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -17,14 +15,9 @@ function useAuth() {
       [e.target.name]: e.target.value,
     }));
   };
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Validation
-    if (!authForm.username) {
-      setError("Please provide a username");
-      return;
-    }
     if (!authForm.email) {
       setError("Please provide an email");
       return;
@@ -35,7 +28,7 @@ function useAuth() {
     }
     try {
       setLoading(true);
-      const res = await fetch("/api/auth/signup", {
+      const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -51,7 +44,6 @@ function useAuth() {
       if (data.success) {
         setError("");
         setAuthForm(initialState);
-        navigate("/sign-in");
       }
     } catch (error) {
       setLoading(false);
@@ -63,4 +55,4 @@ function useAuth() {
   return { handleChange, authForm, handleSubmit, loading, error };
 }
 
-export default useAuth;
+export default useSignIn;
