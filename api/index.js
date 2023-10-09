@@ -1,11 +1,20 @@
+require('dotenv').config();
+require("express-async-errors");
+const connectDB = require('./db/connect')
 const express = require('express')
 const app = express()
-const connectDB = require('./db/connect')
-require('dotenv').config();
+
+app.use(express.json())
+// Routes
+const userRoutes = require("./routes/user.route");
+const authRoutes = require('./routes/auth.route')
+
+app.use('/api/user', userRoutes)
+app.use('/api/auth', authRoutes)
 
 
 // Running The Server
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 8000
 
 const start = async () => {
     try {
