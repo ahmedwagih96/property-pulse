@@ -4,4 +4,6 @@ import HeaderLogo from './Header/HeaderLogo'
 import HeaderSearch from './Header/HeaderSearch'
 import HeaderNav from './Header/HeaderNav'
 
-export {Header, HeaderLogo, HeaderSearch, HeaderNav}
+// FORMS
+import SignUpForm from './Forms/SignUpForm'
+export {Header, HeaderLogo, HeaderSearch, HeaderNav, SignUpForm}

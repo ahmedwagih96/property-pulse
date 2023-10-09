@@ -3,6 +3,7 @@ require("express-async-errors");
 const connectDB = require('./db/connect')
 const express = require('express')
 const app = express()
+const { errorHandler } = require('./middleware/error');
 
 app.use(express.json())
 // Routes
@@ -12,6 +13,8 @@ const authRoutes = require('./routes/auth.route')
 app.use('/api/user', userRoutes)
 app.use('/api/auth', authRoutes)
 
+// Error Handler Middleware
+app.use(errorHandler);
 
 // Running The Server
 const PORT = process.env.PORT || 8000
