@@ -4,8 +4,9 @@ const connectDB = require('./db/connect')
 const express = require('express')
 const app = express()
 const { errorHandler } = require('./middleware/error');
-
+const cookieParser = require('cookie-parser')
 app.use(express.json())
+app.use(cookieParser());
 // Routes
 const userRoutes = require("./routes/user.route");
 const authRoutes = require('./routes/auth.route')

@@ -19,3 +19,10 @@ export interface UserType extends MongoType {
   username: string;
   avatar: string;
 }
+
+export interface UpdatedUser {
+  email: string;
+  password?: string;
+  username: string;
+  avatar?: string;
+}
