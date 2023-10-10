@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-
+import { useAppSelector } from "../../redux/hooks";
 function HeaderNav() {
+  const { currentUser } = useAppSelector((state) => state.user);
   return (
     <nav>
       <ul className="flex gap-4">
@@ -14,9 +15,18 @@ function HeaderNav() {
             About
           </li>
         </Link>
-        <Link to="/sign-in">
-          <li className=" text-slate-700 hover:underline"> Sign in</li>
-        </Link>
+        {currentUser ? (
+          <Link to="/profile">
+            <img
+              src={currentUser.avatar}
+              className="rounded-full h-7 w-7 object-cover"
+            />
+          </Link>
+        ) : (
+          <Link to="/sign-in">
+            <li className=" text-slate-700 hover:underline"> Sign in</li>
+          </Link>
+        )}
       </ul>
     </nav>
   );
