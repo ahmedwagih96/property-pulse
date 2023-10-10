@@ -44,4 +44,41 @@ const signin = async (req, res) => {
     res.cookie('access_token', token, { httpOnly: true }).status(StatusCodes.OK).json({ message: 'Signed In Successfully', user, success: true })
 
 }
-module.exports = { signup, signin }
+
+const google = async (req, res, next) => {
+    // Find if user already exists 
+    const user = await User.findOne({ email: req.body.email }).select("-password")
+    // If user exists (sign in the user)
+    if (user) {
+        // generate the token
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+        // response to client
+        res.cookie('access_token', token, { httpOnly: true }).status(StatusCodes.OK).json({ message: 'Signed In Successfully', user, success: true })
+
+    } else {
+        const { name, photo, email } = req.body;
+        // generate random password for the user
+        const generatedPassword =
+            Math.random().toString(36).slice(-8) +
+            Math.random().toString(36).slice(-8);
+        // hash the password
+        const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
+        // create the new user
+        const username = name.split(' ').join('').toLowerCase() +
+            Math.random().toString(36).slice(-4);
+        let newUser = new User({
+            username,
+            email,
+            password: hashedPassword,
+            avatar: photo
+        });
+        await newUser.save();
+        // generate the token
+        newUser = await User.findOne({ email }).select("-password")
+        const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
+
+        // response to client
+        res.cookie('access_token', token, { httpOnly: true }).status(StatusCodes.OK).json({ message: 'User Created Successfully', user: newUser, success: true })
+    }
+}
+module.exports = { signup, signin, google }

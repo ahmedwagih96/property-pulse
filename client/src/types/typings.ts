@@ -17,4 +17,5 @@ export interface MongoType {
 export interface UserType extends MongoType {
   email: string;
   username: string;
+  avatar: string;
 }

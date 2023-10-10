@@ -7,4 +7,7 @@ import HeaderNav from "./Header/HeaderNav";
 // FORMS
 import SignUpForm from "./Forms/SignUpForm";
 import SignInForm from "./Forms/SignInForm";
-export { Header, HeaderLogo, HeaderSearch, HeaderNav, SignUpForm, SignInForm };
+
+// REUSABLE COMPONENTS
+import OAuth from "./OAuth";
+export { Header, HeaderLogo, HeaderSearch, HeaderNav, SignUpForm, SignInForm, OAuth };

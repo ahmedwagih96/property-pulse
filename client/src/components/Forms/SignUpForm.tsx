@@ -1,3 +1,4 @@
+import { OAuth } from "..";
 import useAuth from "../../hooks/useSignUp";
 function SignUpForm() {
   const { handleChange, authForm, handleSubmit, loading, error } = useAuth();
@@ -34,6 +35,7 @@ function SignUpForm() {
       >
         {loading ? "Loading..." : "Sign Up"}
       </button>
+      <OAuth />
       {error && <p className="text-red-500 mt-2 md:mt-5">{error}</p>}
     </form>
   );
