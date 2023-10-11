@@ -81,4 +81,9 @@ const google = async (req, res, next) => {
         res.cookie('access_token', token, { httpOnly: true }).status(StatusCodes.OK).json({ message: 'User Created Successfully', user: newUser, success: true })
     }
 }
-module.exports = { signup, signin, google }
+
+const signout = async (req, res) => {
+    res.clearCookie('access_token');
+    res.status(StatusCodes.OK).json({ message: 'User has been Signed Out', success: true })
+}
+module.exports = { signup, signin, google, signout }

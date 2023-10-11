@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ProfileForm } from "../components";
+import { ProfileActions, ProfileForm } from "../components";
 export default function Profile() {
   return (
     <div className="p-3 max-w-lg mx-auto">
@@ -11,10 +11,7 @@ export default function Profile() {
       >
         Create Listing
       </Link>
-      <div className="flex justify-between mt-5">
-        <span className="text-red-700 cursor-pointer">Delete account</span>
-        <span className="text-red-700 cursor-pointer">Sign out</span>
-      </div>
+      <ProfileActions />
       <button className="text-green-700 w-full">Show Listings</button>
     </div>
   );
