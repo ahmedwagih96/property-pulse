@@ -7,12 +7,11 @@ const { errorHandler } = require('./middleware/error');
 const cookieParser = require('cookie-parser')
 app.use(express.json())
 app.use(cookieParser());
-// Routes
-const userRoutes = require("./routes/user.route");
-const authRoutes = require('./routes/auth.route')
 
-app.use('/api/user', userRoutes)
-app.use('/api/auth', authRoutes)
+// Routes
+app.use('/api/user', require("./routes/user.route.js"))
+app.use('/api/auth', require('./routes/auth.route.js'))
+app.use('/api/property', require('./routes/property.route.js'))
 
 // Error Handler Middleware
 app.use(errorHandler);
