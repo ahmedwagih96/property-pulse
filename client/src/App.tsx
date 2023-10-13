@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Home, About, Profile, SignIn, SignUp } from "./pages";
+import { Home, About, Profile, SignIn, SignUp, CreateListing } from "./pages";
 import { Header } from "./components";
 import { useAppSelector } from "./redux/hooks";
 function App() {
@@ -13,6 +13,10 @@ function App() {
         <Route
           path="/profile"
           element={currentUser ? <Profile /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/create-listing"
+          element={currentUser ? <CreateListing /> : <Navigate to="/" />}
         />
         <Route
           path="/sign-in"
