@@ -1,30 +1,23 @@
 import { ChangeEvent, useState, FormEvent } from "react";
-// Firebase
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
-import { app } from "../firebase";
 // Typings
 import { UpdatedUser } from "../types/typings";
 // Redux
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
 import { updateUser } from "../redux/features/userSlice";
+import { uploadImage } from "../utils/uploadImage";
+
 function useUpdateProfile() {
   const { currentUser } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
-
   //State
   const [file, setFile] = useState<File>();
-  const [uploadFileProgress, setUploadFileProgress] = useState<number>(0);
-  const [fileUploadError, setFileUploadError] = useState<boolean>(false);
+  const [fileUploadError, setFileUploadError] = useState<string>("");
   const [profileData, setProfileData] = useState<UpdatedUser>({
     username: currentUser?.username || "",
     email: currentUser?.email || "",
     password: "",
   });
+
   const [loading, setLoading] = useState<boolean>(false);
   const [isUpdateSuccess, setIsUpdateSuccess] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
@@ -40,31 +33,6 @@ function useUpdateProfile() {
     e.target.value = "";
   };
 
-  const handleFileUpload = (file: File): Promise<string> => {
-    return new Promise((resolve) => {
-      const storage = getStorage(app);
-      const fileName = new Date().getTime() + file.name;
-      const storageRef = ref(storage, fileName);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          setUploadFileProgress(Math.round(progress));
-        },
-        () => {
-          setFileUploadError(true);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setFile(undefined);
-            resolve(downloadURL);
-          });
-        }
-      );
-    });
-  };
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Clear previous errors
@@ -74,12 +42,24 @@ function useUpdateProfile() {
       setError("Please provide a username and email");
       return;
     }
-
     try {
       setLoading(true);
       let avatar = "";
       if (file) {
-        avatar = await handleFileUpload(file);
+        await uploadImage(file)
+          .then((result) => {
+            if (result.downloadURL) {
+              avatar = result.downloadURL;
+            } else {
+              const errorMessage = result.error
+                ? result.error.message
+                : "Unknown error";
+              setFileUploadError(errorMessage);
+            }
+          })
+          .catch(() => {
+            setFileUploadError("Unexpected error occurred");
+          });
       }
       const res = await fetch(`/api/user/update/${currentUser?._id}`, {
         method: "PUT",
@@ -108,13 +88,12 @@ function useUpdateProfile() {
   };
 
   return {
-    file,
-    profileData,
     handleChangeImage,
     handleChangeData,
-    uploadFileProgress,
-    fileUploadError,
     handleSubmit,
+    file,
+    profileData,
+    fileUploadError,
     loading,
     isUpdateSuccess,
     error,

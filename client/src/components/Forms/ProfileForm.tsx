@@ -6,7 +6,6 @@ function ProfileForm() {
   const {
     handleChangeImage,
     fileUploadError,
-    uploadFileProgress,
     file,
     profileData,
     handleChangeData,
@@ -33,12 +32,8 @@ function ProfileForm() {
       <p className="text-sm self-center">
         {fileUploadError ? (
           <span className="text-red-700">
-            Error Image upload (image must be less than 2 mb)
+            {fileUploadError}
           </span>
-        ) : uploadFileProgress > 0 && uploadFileProgress < 100 ? (
-          <span className="text-slate-700">{`Uploading ${uploadFileProgress}%`}</span>
-        ) : uploadFileProgress === 100 ? (
-          <span className="text-green-700">Image successfully uploaded!</span>
         ) : null}
       </p>
       <input

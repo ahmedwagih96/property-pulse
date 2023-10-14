@@ -1,48 +1,24 @@
-import { Checkbox, NumberInput } from "..";
+import { CheckboxInputs, NumberInputs, SelectedImages, TextInputs } from "..";
+import useCreateListing from "../../hooks/useCreateListing";
 
 function CreateListingForm() {
+  const {
+    setFiles,
+    handleSubmit,
+    loading,
+    files,
+    formData,
+    removeFile,
+    handleFormChange,
+    error,
+    fileUploadError,
+  } = useCreateListing();
   return (
-    <form className="flex flex-col sm:flex-row gap-4">
+    <form className="flex flex-col sm:flex-row gap-4" onSubmit={handleSubmit}>
       <div className="flex flex-col gap-4 flex-1">
-        <input
-          type="text"
-          placeholder="Name"
-          className="border p-3 rounded-lg"
-          name="name"
-          maxLength={62}
-          minLength={10}
-          required
-        />
-        <textarea
-          placeholder="Description"
-          className="border p-3 rounded-lg"
-          name="description"
-          required
-        />
-        <input
-          type="text"
-          placeholder="Address"
-          className="border p-3 rounded-lg"
-          name="address"
-          required
-        />
-        <div className="flex gap-6 flex-wrap">
-          <Checkbox title="Sell" name={"sell"} />
-          <Checkbox title="Rent" name={"rent"} />
-          <Checkbox title="Parking Spot" name={"parking"} />
-          <Checkbox title="Furnished" name={"furnished"} />
-          <Checkbox title="Offer" name={"offer"} />
-        </div>
-        <div className="flex flex-wrap gap-6">
-          <NumberInput name="bedrooms" title="Beds" />
-          <NumberInput name="bathrooms" title="Baths" />
-          <NumberInput
-            name="bathrooms"
-            min={50}
-            max={10000000}
-            title="Regular Price"
-          />
-        </div>
+        <TextInputs handleChange={handleFormChange} formData={formData} />
+        <CheckboxInputs handleChange={handleFormChange} formData={formData} />
+        <NumberInputs handleChange={handleFormChange} formData={formData} />
       </div>
       <div className="flex flex-col flex-1 gap-4">
         <p className="font-semibold">
@@ -53,23 +29,26 @@ function CreateListingForm() {
         </p>
         <div className="flex gap-4">
           <input
-            className="p-3 border border-gray-300 rounded w-full"
+            className="p-3 border border-gray-300 rounded"
             type="file"
-            name="images"
             accept="image/*"
             multiple
+            onChange={(e) => e.target.files && setFiles(e.target.files)}
           />
-          <button
-            type="button"
-            className="p-3 text-green-700 border border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80"
-          >
-            Upload
-          </button>
+          {fileUploadError ? (
+            <p className="text-red-700 text-sm">{fileUploadError}</p>
+          ) : null}
         </div>
-
-        <button className="p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80">
-          Create listing
+        {files?.length ? (
+          <SelectedImages files={files} removeFile={removeFile} />
+        ) : null}
+        <button
+          disabled={loading}
+          className="p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
+        >
+          {loading ? "Loading..." : "Create listing"}
         </button>
+        {error ? <p className="text-red-700 text-sm">{error}</p> : null}
       </div>
     </form>
   );

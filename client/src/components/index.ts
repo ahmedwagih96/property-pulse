@@ -8,8 +8,10 @@ import HeaderNav from "./Header/HeaderNav";
 import ProfileActions from "./Profile/ProfileActions";
 
 // CREATE LISTING PAGE
-import Checkbox from "./CreateListing/Checkbox";
-import NumberInput from "./CreateListing/NumberInput";
+import TextInputs from "./CreateListing/TextInputs";
+import CheckboxInputs from "./CreateListing/CheckboxInputs";
+import NumberInputs from "./CreateListing/NumberInputs";
+import SelectedImages from "./CreateListing/SelectedImages";
 // FORMS
 import SignUpForm from "./Forms/SignUpForm";
 import SignInForm from "./Forms/SignInForm";
@@ -30,6 +32,8 @@ export {
   ProfileForm,
   ProfileActions,
   CreateListingForm,
-  Checkbox,
-  NumberInput,
+  TextInputs,
+  CheckboxInputs,
+  NumberInputs,
+  SelectedImages,
 };

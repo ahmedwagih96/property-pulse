@@ -26,3 +26,18 @@ export interface UpdatedUser {
   username: string;
   avatar?: string;
 }
+
+export interface ListingDataForm {
+  imageUrls: string[];
+  name: string;
+  description: string;
+  address: string;
+  type: string;
+  parking: boolean;
+  furnished: boolean;
+  offer: boolean;
+  bedrooms: number;
+  bathrooms: number;
+  regularPrice: number;
+  discountPrice: number;
+}
