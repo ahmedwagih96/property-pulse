@@ -7,7 +7,11 @@ import {
   updateFileList,
 } from "../utils/CreateListingUtils";
 import { initialCreateListingDataForm } from "../constants";
+// Redux
+import { useAppDispatch } from "../redux/hooks";
+import { setUser } from "../redux/features/userSlice";
 function useCreateListing() {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [fileUploadError, setFileUploadError] = useState<string>("");
   const [error, setError] = useState<string>("");
@@ -68,6 +72,7 @@ function useCreateListing() {
       if (!data.success) {
         setError(data.message);
       }
+      dispatch(setUser(data.user));
       navigate(`/`);
     } catch (error) {
       setLoading(false);

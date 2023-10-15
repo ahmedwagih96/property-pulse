@@ -9,7 +9,7 @@ export interface UserType extends MongoType {
   email: string;
   username: string;
   avatar: string;
-  listings: ListingsType[];
+  properties: ListingsType[];
 }
 
 export interface ListingsType extends MongoType {
