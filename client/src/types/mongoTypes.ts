@@ -1,3 +1,5 @@
+import { ListingDataForm } from "./typings";
+
 export interface MongoType {
   _id: string;
   createdAt: string;
@@ -12,18 +14,6 @@ export interface UserType extends MongoType {
   properties: ListingsType[];
 }
 
-export interface ListingsType extends MongoType {
-  name: string;
-  description: string;
-  address: string;
-  regularPrice: number;
-  discountPrice: number;
-  bathrooms: number;
-  bedrooms: number;
-  furnished: boolean;
-  parking: boolean;
-  type: string;
-  offer: boolean;
-  imageUrls: string[];
+export interface ListingsType extends MongoType, ListingDataForm {
   user: UserType;
 }

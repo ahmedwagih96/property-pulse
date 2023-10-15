@@ -8,16 +8,18 @@ import HeaderNav from "./Header/HeaderNav";
 import ProfileActions from "./Profile/ProfileActions";
 import Listings from "./Profile/Listings";
 
-// CREATE LISTING PAGE
-import TextInputs from "./CreateListing/TextInputs";
-import CheckboxInputs from "./CreateListing/CheckboxInputs";
-import NumberInputs from "./CreateListing/NumberInputs";
-import SelectedImages from "./CreateListing/SelectedImages";
+// CREATE LISTING & EDIT LISTING PAGE
+import TextInputs from "./ListingInputs/TextInputs";
+import CheckboxInputs from "./ListingInputs/CheckboxInputs";
+import NumberInputs from "./ListingInputs/NumberInputs";
+import SelectedImages from "./ListingInputs/SelectedImages";
+import UpdatedImages from "./ListingInputs/UpdatedImages";
 // FORMS
 import SignUpForm from "./Forms/SignUpForm";
 import SignInForm from "./Forms/SignInForm";
 import ProfileForm from "./Forms/ProfileForm";
 import CreateListingForm from "./Forms/CreateListingForm";
+import UpdateListingForm from "./Forms/UpdateListingForm";
 
 // REUSABLE COMPONENTS
 import OAuth from "./OAuth";
@@ -38,4 +40,6 @@ export {
   NumberInputs,
   SelectedImages,
   Listings,
+  UpdateListingForm,
+  UpdatedImages,
 };

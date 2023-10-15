@@ -6,7 +6,7 @@ import {
   handleListingFormChange,
   updateFileList,
 } from "../utils/CreateListingUtils";
-import { initialCreateListingDataForm } from "../constants";
+import { initialListingDataForm } from "../constants";
 // Redux
 import { useAppDispatch } from "../redux/hooks";
 import { setUser } from "../redux/features/userSlice";
@@ -16,7 +16,7 @@ function useCreateListing() {
   const [fileUploadError, setFileUploadError] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [formData, setFormData] = useState<ListingDataForm>(
-    initialCreateListingDataForm
+    initialListingDataForm
   );
   const [loading, setLoading] = useState<boolean>(false);
   const [files, setFiles] = useState<FileList>();

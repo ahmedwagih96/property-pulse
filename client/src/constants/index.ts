@@ -1,4 +1,4 @@
-export const initialCreateListingDataForm = {
+export const initialListingDataForm = {
   imageUrls: [],
   name: "",
   description: "",
