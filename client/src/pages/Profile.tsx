@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ProfileActions, ProfileForm } from "../components";
+import { Listings, ProfileActions, ProfileForm } from "../components";
 export default function Profile() {
+  const [showListings, setShowListings] = useState<boolean>(false);
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
@@ -12,7 +14,13 @@ export default function Profile() {
         Create Listing
       </Link>
       <ProfileActions />
-      <button className="text-green-700 w-full">Show Listings</button>
+      <button
+        className="text-green-700 w-full"
+        onClick={() => setShowListings((prev) => !prev)}
+      >
+        {showListings ? "Hide Listings" : "Show Listings"}
+      </button>
+      {showListings ? <Listings /> : null}
     </div>
   );
 }

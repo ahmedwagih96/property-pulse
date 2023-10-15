@@ -39,7 +39,7 @@ const signin = async (req, res) => {
     // generate the token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
-    user = await User.findOne({ email }).select("-password")
+    user = await User.findOne({ email }).select("-password").populate("properties");
     // response to client
     res.cookie('access_token', token, { httpOnly: true }).status(StatusCodes.OK).json({ message: 'Signed In Successfully', user, success: true })
 
@@ -47,7 +47,7 @@ const signin = async (req, res) => {
 
 const google = async (req, res, next) => {
     // Find if user already exists 
-    const user = await User.findOne({ email: req.body.email }).select("-password")
+    const user = await User.findOne({ email: req.body.email }).select("-password").populate("properties")
     // If user exists (sign in the user)
     if (user) {
         // generate the token

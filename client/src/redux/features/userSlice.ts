@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { UserType } from "../../types/typings";
+import { UserType } from "../../types/mongoTypes";
 
 interface UserState {
   currentUser: UserType | null;

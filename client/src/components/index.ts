@@ -6,6 +6,7 @@ import HeaderNav from "./Header/HeaderNav";
 
 // PROFILE PAGE
 import ProfileActions from "./Profile/ProfileActions";
+import Listings from "./Profile/Listings";
 
 // CREATE LISTING PAGE
 import TextInputs from "./CreateListing/TextInputs";
@@ -36,4 +37,5 @@ export {
   CheckboxInputs,
   NumberInputs,
   SelectedImages,
+  Listings,
 };

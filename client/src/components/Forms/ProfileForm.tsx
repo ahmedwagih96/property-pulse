@@ -31,9 +31,7 @@ function ProfileForm() {
       </label>
       <p className="text-sm self-center">
         {fileUploadError ? (
-          <span className="text-red-700">
-            {fileUploadError}
-          </span>
+          <span className="text-red-700">{fileUploadError}</span>
         ) : null}
       </p>
       <input
