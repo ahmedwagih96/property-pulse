@@ -14,6 +14,13 @@ import CheckboxInputs from "./ListingInputs/CheckboxInputs";
 import NumberInputs from "./ListingInputs/NumberInputs";
 import SelectedImages from "./ListingInputs/SelectedImages";
 import UpdatedImages from "./ListingInputs/UpdatedImages";
+
+// LISTING PAGE
+import ImageSlider from "./Listing/ImageSlider";
+import ShareButton from "./Listing/ShareButton";
+import ListingDescription from "./Listing/ListingDescription";
+import ListingInfo from "./Listing/ListingInfo";
+import Contact from "./Listing/Contact";
 // FORMS
 import SignUpForm from "./Forms/SignUpForm";
 import SignInForm from "./Forms/SignInForm";
@@ -42,4 +49,9 @@ export {
   Listings,
   UpdateListingForm,
   UpdatedImages,
+  ImageSlider,
+  ShareButton,
+  ListingDescription,
+  ListingInfo,
+  Contact
 };

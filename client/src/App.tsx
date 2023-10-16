@@ -1,5 +1,14 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Home, About, Profile, SignIn, SignUp, CreateListing, UpdateListing } from "./pages";
+import {
+  Home,
+  About,
+  Profile,
+  SignIn,
+  SignUp,
+  CreateListing,
+  UpdateListing,
+  Listing,
+} from "./pages";
 import { Header } from "./components";
 import { useAppSelector } from "./redux/hooks";
 function App() {
@@ -14,6 +23,9 @@ function App() {
           path="/profile"
           element={currentUser ? <Profile /> : <Navigate to="/" />}
         />
+
+        <Route path="/listing/:id" element={<Listing />} />
+
         <Route
           path="/create-listing"
           element={currentUser ? <CreateListing /> : <Navigate to="/" />}

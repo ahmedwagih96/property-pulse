@@ -3,7 +3,7 @@ const { Property } = require('../models/property.model')
 const { User } = require('../models/user.model.js');
 
 const getProperty = async (req, res) => {
-    const property = await Property.findById(req.params.id).select(['-_id', '-createdAt', '-updatedAt', '-__v'])
+    const property = await Property.findById(req.params.id).select(['-_id', '-createdAt', '-updatedAt', '-__v']).populate("user")
     return res.status(StatusCodes.OK).json({ success: true, property })
 }
 const createProperty = async (req, res) => {
