@@ -2,8 +2,38 @@ const { StatusCodes } = require('http-status-codes');
 const { Property } = require('../models/property.model')
 const { User } = require('../models/user.model.js');
 
+
+const getAllProperties = async (req, res) => {
+    const { offer, parking, furnished, type, sort, name } = req.queries
+
+    const queries = {}
+    if (offer) queries.offer = offer
+    if (parking) queries.parking = parking
+    if (furnished) queries.furnished = furnished
+    if (type) queries.furnished = type
+    if (name) queries.name = { $regex: name, $options: 'i' }
+
+    let results = Property.find(queries);
+
+    const limit = Number(req.query.limit) || 9;
+    const startIndex = Number(req.query.startIndex) || 0;
+
+    sort ? results.sort(sort)
+        : results.sort('createdAt')
+
+    results = results.limit(limit).skip(startIndex)
+
+    const properties = await results;
+
+    return res.status(StatusCodes.OK).json({ success: true, properties })
+
+}
+
 const getProperty = async (req, res) => {
     const property = await Property.findById(req.params.id).select(['-_id', '-createdAt', '-updatedAt', '-__v']).populate("user")
+    if (!property) {
+        return res.status(StatusCodes.NOT_FOUND).json({ message: 'Property not found' })
+    }
     return res.status(StatusCodes.OK).json({ success: true, property })
 }
 const createProperty = async (req, res) => {
@@ -49,4 +79,4 @@ const updateProperty = async (req, res) => {
     }
 }
 
-module.exports = { createProperty, deleteProperty, getProperty, updateProperty }
+module.exports = { createProperty, deleteProperty, getProperty, updateProperty, getAllProperties }
