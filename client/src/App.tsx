@@ -8,6 +8,7 @@ import {
   CreateListing,
   UpdateListing,
   Listing,
+  Search,
 } from "./pages";
 import { Header } from "./components";
 import { useAppSelector } from "./redux/hooks";
@@ -19,6 +20,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="/search" element={<Search />} />
         <Route
           path="/profile"
           element={currentUser ? <Profile /> : <Navigate to="/" />}

@@ -4,24 +4,23 @@ const { User } = require('../models/user.model.js');
 
 
 const getAllProperties = async (req, res) => {
-    const { offer, parking, furnished, type, sort, name } = req.queries
+    const { parking, furnished, type, sort, searchName, startIndex } = req.query;
 
     const queries = {}
-    if (offer) queries.offer = offer
-    if (parking) queries.parking = parking
-    if (furnished) queries.furnished = furnished
-    if (type) queries.furnished = type
-    if (name) queries.name = { $regex: name, $options: 'i' }
+    if (parking) queries.parking = true
+    if (furnished) queries.furnished = true
+    if (type) queries.type = type
+    if (searchName) queries.name = { $regex: searchName, $options: 'i' }
 
     let results = Property.find(queries);
 
-    const limit = Number(req.query.limit) || 9;
-    const startIndex = Number(req.query.startIndex) || 0;
+    const limit = 9;
+    const skip = Number(startIndex) || 0;
 
     sort ? results.sort(sort)
         : results.sort('createdAt')
 
-    results = results.limit(limit).skip(startIndex)
+    results = results.limit(limit).skip(skip)
 
     const properties = await results;
 

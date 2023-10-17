@@ -1,16 +1,20 @@
-import { useState, FormEvent, ChangeEvent, useEffect } from "react";
+import {
+  useState,
+  FormEvent,
+  ChangeEvent,
+  useEffect,
+  SetStateAction,
+} from "react";
 import { useNavigate, useParams } from "react-router-dom";
 // utils
 import { uploadImage } from "../utils/uploadImage";
-import {
-  handleListingFormChange,
-  updateFileList,
-} from "../utils/CreateListingUtils";
+import { updateFileList } from "../utils/updateFileList";
 // Redux
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { setUser } from "../redux/features/userSlice";
 import { initialListingDataForm } from "../constants";
 import { ListingDataForm } from "../types/typings";
+import { handleFormInputs } from "../utils/handleFormInputs";
 
 function useUpdateListing() {
   const { currentUser } = useAppSelector((state) => state.user);
@@ -59,7 +63,9 @@ function useUpdateListing() {
   const handleFormChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setFormData(handleListingFormChange(e, formData));
+    setFormData(
+      handleFormInputs(e, formData) as SetStateAction<ListingDataForm>
+    );
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {

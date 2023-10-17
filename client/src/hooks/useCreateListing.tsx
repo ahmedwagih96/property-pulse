@@ -1,11 +1,10 @@
-import { useState, FormEvent, ChangeEvent } from "react";
+import { useState, FormEvent, ChangeEvent, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
 import { ListingDataForm } from "../types/typings";
+// utils
 import { uploadImage } from "../utils/uploadImage";
-import {
-  handleListingFormChange,
-  updateFileList,
-} from "../utils/CreateListingUtils";
+import { updateFileList } from "../utils/updateFileList";
+import { handleFormInputs } from "../utils/handleFormInputs";
 import { initialListingDataForm } from "../constants";
 // Redux
 import { useAppDispatch } from "../redux/hooks";
@@ -30,7 +29,9 @@ function useCreateListing() {
   const handleFormChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setFormData(handleListingFormChange(e, formData));
+    setFormData(
+      handleFormInputs(e, formData) as SetStateAction<ListingDataForm>
+    );
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {

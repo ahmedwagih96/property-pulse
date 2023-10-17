@@ -21,6 +21,11 @@ import ShareButton from "./Listing/ShareButton";
 import ListingDescription from "./Listing/ListingDescription";
 import ListingInfo from "./Listing/ListingInfo";
 import Contact from "./Listing/Contact";
+
+// SEARCH PAGE
+import Sidebar from "./Search/Sidebar";
+import Results from "./Search/Results";
+import ListingItem from "./Search/ListingItem";
 // FORMS
 import SignUpForm from "./Forms/SignUpForm";
 import SignInForm from "./Forms/SignInForm";
@@ -53,5 +58,8 @@ export {
   ShareButton,
   ListingDescription,
   ListingInfo,
-  Contact
+  Contact,
+  Sidebar,
+  Results,
+  ListingItem
 };

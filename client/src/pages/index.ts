@@ -6,6 +6,7 @@ import About from "./About";
 import CreateListing from "./CreateListing";
 import UpdateListing from "./UpdateListing";
 import Listing from "./Listing";
+import Search from "./Search";
 export {
   Home,
   SignIn,
@@ -15,4 +16,5 @@ export {
   CreateListing,
   UpdateListing,
   Listing,
+  Search,
 };

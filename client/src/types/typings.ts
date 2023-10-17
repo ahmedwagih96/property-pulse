@@ -29,3 +29,11 @@ export interface ListingDataForm {
   regularPrice: number;
   discountPrice: number;
 }
+
+export interface Queries {
+  searchName: string;
+  sort: string;
+  type: string;
+  parking: boolean;
+  furnished: boolean;
+}
