@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { MdLocationOn } from "react-icons/md";
-import { ListingsType } from "../../types/mongoTypes";
+import { ListingsType } from "../types/mongoTypes";
 
 export default function ListingItem({ listing }: { listing: ListingsType }) {
   return (
@@ -29,7 +29,7 @@ export default function ListingItem({ listing }: { listing: ListingsType }) {
             {listing.offer
               ? listing.discountPrice.toLocaleString("en-US")
               : listing.regularPrice.toLocaleString("en-US")}
-            {listing.type === "rent"? " / month" : null}
+            {listing.type === "rent" ? " / month" : null}
           </p>
           <div className="text-slate-700 flex gap-4">
             <div className="font-bold text-xs">

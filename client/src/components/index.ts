@@ -4,6 +4,11 @@ import HeaderLogo from "./Header/HeaderLogo";
 import HeaderSearch from "./Header/HeaderSearch";
 import HeaderNav from "./Header/HeaderNav";
 
+// HOME PAGE
+import Landing from "./Home/Landing";
+import SaleListings from "./Home/SaleListings";
+import RentListings from "./Home/RentListings";
+
 // PROFILE PAGE
 import ProfileActions from "./Profile/ProfileActions";
 import Listings from "./Profile/Listings";
@@ -16,16 +21,15 @@ import SelectedImages from "./ListingInputs/SelectedImages";
 import UpdatedImages from "./ListingInputs/UpdatedImages";
 
 // LISTING PAGE
-import ImageSlider from "./Listing/ImageSlider";
 import ShareButton from "./Listing/ShareButton";
 import ListingDescription from "./Listing/ListingDescription";
 import ListingInfo from "./Listing/ListingInfo";
 import Contact from "./Listing/Contact";
+import ImageSlider from "./Listing/ImageSlider";
 
 // SEARCH PAGE
 import Sidebar from "./Search/Sidebar";
 import Results from "./Search/Results";
-import ListingItem from "./Search/ListingItem";
 // FORMS
 import SignUpForm from "./Forms/SignUpForm";
 import SignInForm from "./Forms/SignInForm";
@@ -35,6 +39,7 @@ import UpdateListingForm from "./Forms/UpdateListingForm";
 
 // REUSABLE COMPONENTS
 import OAuth from "./OAuth";
+import ListingItem from "./ListingItem";
 
 export {
   Header,
@@ -61,5 +66,8 @@ export {
   Contact,
   Sidebar,
   Results,
-  ListingItem
+  ListingItem,
+  Landing,
+  SaleListings,
+  RentListings,
 };

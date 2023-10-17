@@ -14,7 +14,7 @@ const getAllProperties = async (req, res) => {
 
     let results = Property.find(queries);
 
-    const limit = 9;
+    const limit = Number(req.query.limit) || 9;
     const skip = Number(startIndex) || 0;
 
     sort ? results.sort(sort)
