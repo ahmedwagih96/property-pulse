@@ -24,6 +24,7 @@ app.use(xss());
 app.use(hpp());
 
 // Rate Limiting 
+app.set('trust proxy', true);
 app.use(rateLimiting({
     windowMs: 10 * 60 * 1000, // 10 minutes
     max: 200,
@@ -44,7 +45,7 @@ app.get('*', (req, res) => {
 })
 
 // Running The Server
-const PORT = process.env.PORT || 8000
+const PORT = 8000
 
 const start = async () => {
     try {
