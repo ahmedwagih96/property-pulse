@@ -37,7 +37,7 @@ app.use('/api/property', require('./routes/property.route.js'))
 const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, '/client/dist')));
 
-// Error Handler Middleware
+// Error Handler Middleware 
 app.use(errorHandler);
 
 app.get('*', (req, res) => {
