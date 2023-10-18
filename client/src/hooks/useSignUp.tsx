@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { SignUpForm } from "../types/typings";
 import { useNavigate } from "react-router-dom";
-function useAuth() {
+function useSignUp() {
   const navigate = useNavigate();
   const initialState = {
     username: "",
@@ -63,4 +63,4 @@ function useAuth() {
   return { handleChange, authForm, handleSubmit, loading, error };
 }
 
-export default useAuth;
+export default useSignUp;

@@ -25,9 +25,7 @@ function App() {
           path="/profile"
           element={currentUser ? <Profile /> : <Navigate to="/" />}
         />
-
         <Route path="/listing/:id" element={<Listing />} />
-
         <Route
           path="/create-listing"
           element={currentUser ? <CreateListing /> : <Navigate to="/" />}
@@ -48,5 +46,4 @@ function App() {
     </BrowserRouter>
   );
 }
-
 export default App;

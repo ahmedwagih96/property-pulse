@@ -36,9 +36,9 @@ const getProperty = async (req, res) => {
     return res.status(StatusCodes.OK).json({ success: true, property })
 }
 const createProperty = async (req, res) => {
-    await Property.create({ ...req.body, user: req.user.id });
+    const property = await Property.create({ ...req.body, user: req.user.id });
     const user = await User.findById(req.user.id).populate("properties");
-    return res.status(StatusCodes.CREATED).json({ user, success: true })
+    return res.status(StatusCodes.CREATED).json({ user, success: true, property })
 }
 
 const deleteProperty = async (req, res) => {
@@ -69,10 +69,10 @@ const updateProperty = async (req, res) => {
     // Check if post owner is the one deleting the property
     if (req.user.id === property.user.toString()) {
         // Update The Property
-        await Property.findByIdAndUpdate(req.params.id, { $set: { ...req.body } }, { new: true });
+        const property = await Property.findByIdAndUpdate(req.params.id, { $set: { ...req.body } }, { new: true });
         const user = await User.findById(req.user.id).populate("properties");
         //  response to client 
-        return res.status(StatusCodes.OK).json({ message: 'Listing has been deleted', success: true, user })
+        return res.status(StatusCodes.OK).json({ message: 'Listing has been deleted', success: true, user, property })
     } else {
         res.status(StatusCodes.FORBIDDEN).json({ message: 'Access Denied' })
     }

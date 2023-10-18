@@ -9,12 +9,14 @@ import { useNavigate, useParams } from "react-router-dom";
 // utils
 import { uploadImage } from "../utils/uploadImage";
 import { updateFileList } from "../utils/updateFileList";
+import { validateUpdateListingForm } from "../utils/formValidations";
+import { handleFormInputs } from "../utils/handleFormInputs";
 // Redux
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { setUser } from "../redux/features/userSlice";
-import { initialListingDataForm } from "../constants";
+
 import { ListingDataForm } from "../types/typings";
-import { handleFormInputs } from "../utils/handleFormInputs";
+import { initialListingDataForm } from "../constants";
 
 function useUpdateListing() {
   const { currentUser } = useAppSelector((state) => state.user);
@@ -70,12 +72,12 @@ function useUpdateListing() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!files?.length && !formData.imageUrls.length) return;
-    if (formData.imageUrls.length + (files?.length ? files.length : 0) > 7)
+    const { error, validation } = validateUpdateListingForm(formData, files);
+    if (!validation) {
+      setError(error);
       return;
-    if (!formData.name || !formData.address) return;
-    if (formData.regularPrice < formData.discountPrice) return;
-    // setLoading(true);
+    }
+    setLoading(true);
     if (files?.length) {
       for (let i = 0; i < files.length; i++) {
         await uploadImage(files[i])
@@ -96,7 +98,6 @@ function useUpdateListing() {
     }
     try {
       setError("");
-      setLoading(true);
       const id = params.id;
       const res = await fetch(`/api/property/${id}`, {
         method: "PUT",
@@ -113,7 +114,7 @@ function useUpdateListing() {
         setError(data.message);
       }
       dispatch(setUser(data.user));
-      navigate(`/`);
+      navigate(`/listing/${data.property._id}`);
     } catch (error) {
       setLoading(false);
       if (error instanceof Error) {

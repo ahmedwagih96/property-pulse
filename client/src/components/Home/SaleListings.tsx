@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ListingsType } from "../../types/mongoTypes";
 import { ListingItem } from "..";
-
+import { toast } from "react-toastify";
 function SaleListings() {
   const [saleListings, setSaleListings] = useState<ListingsType[]>([]);
   useEffect(() => {
@@ -12,7 +12,7 @@ function SaleListings() {
         const data = await res.json();
         setSaleListings(data.properties);
       } catch (error) {
-        console.log(error);
+        toast.error("something went wrong, please refresh page");
       }
     };
     fetchSaleListings();

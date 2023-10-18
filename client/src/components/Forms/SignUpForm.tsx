@@ -1,7 +1,7 @@
 import { OAuth } from "..";
-import useAuth from "../../hooks/useSignUp";
+import useSignUp from "../../hooks/useSignUp";
 function SignUpForm() {
-  const { handleChange, authForm, handleSubmit, loading, error } = useAuth();
+  const { handleChange, authForm, handleSubmit, loading, error } = useSignUp();
   return (
     <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
       <input

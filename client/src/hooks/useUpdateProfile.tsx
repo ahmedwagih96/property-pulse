@@ -38,8 +38,8 @@ function useUpdateProfile() {
     // Clear previous errors
     setError("");
     // Validation
-    if (!profileData.username || !profileData.email) {
-      setError("Please provide a username and email");
+    if (profileData.username === currentUser?.username && profileData.email === currentUser.email && !profileData.password && !file) {
+      setError("Please make some changes to update");
       return;
     }
     try {

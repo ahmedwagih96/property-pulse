@@ -6,12 +6,15 @@ import { uploadImage } from "../utils/uploadImage";
 import { updateFileList } from "../utils/updateFileList";
 import { handleFormInputs } from "../utils/handleFormInputs";
 import { initialListingDataForm } from "../constants";
+import { validateCreateListingForm } from "../utils/formValidations";
 // Redux
 import { useAppDispatch } from "../redux/hooks";
 import { setUser } from "../redux/features/userSlice";
+
 function useCreateListing() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  // state
   const [fileUploadError, setFileUploadError] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [formData, setFormData] = useState<ListingDataForm>(
@@ -19,6 +22,8 @@ function useCreateListing() {
   );
   const [loading, setLoading] = useState<boolean>(false);
   const [files, setFiles] = useState<FileList>();
+
+  // remove selected files
   const removeFile = (fileToRemove: File) => {
     if (!files) {
       return;
@@ -26,6 +31,7 @@ function useCreateListing() {
     setFiles(updateFileList(files, fileToRemove));
   };
 
+  // manage controlled form state
   const handleFormChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -34,12 +40,18 @@ function useCreateListing() {
     );
   };
 
+  // submit form
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!files?.length) return;
-    if (files.length > 7) return;
-    if (!formData.name || !formData.address) return;
-    if (formData.regularPrice < formData.discountPrice) return;
+    if (!files?.length) {
+      setError("please upload at least 1 image");
+      return;
+    }
+    const { error, validation } = validateCreateListingForm(formData, files);
+    if (!validation) {
+      setError(error);
+      return;
+    }
     setLoading(true);
     for (let i = 0; i < files.length; i++) {
       await uploadImage(files[i])
@@ -74,7 +86,7 @@ function useCreateListing() {
         setError(data.message);
       }
       dispatch(setUser(data.user));
-      navigate(`/`);
+      navigate(`/listing/${data.property._id}`);
     } catch (error) {
       setLoading(false);
       if (error instanceof Error) {
