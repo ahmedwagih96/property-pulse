@@ -1,5 +1,6 @@
 import { useAppDispatch } from "../redux/hooks";
 import { setUser } from "../redux/features/userSlice";
+import { toast } from "react-toastify";
 function useHandleListings() {
   const dispatch = useAppDispatch();
   const handleDeleteListing = async (id: string) => {
@@ -9,12 +10,13 @@ function useHandleListings() {
       });
       const data = await res.json();
       if (!data.success) {
-        console.log("error");
+        toast.error("something went wrong");
       }
+      toast.success("listing has been deleted");
       dispatch(setUser(data.user));
     } catch (error) {
       if (error instanceof Error) {
-        console.log("error");
+        toast.error("something went wrong");
       }
     }
   };

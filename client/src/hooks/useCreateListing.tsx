@@ -42,6 +42,7 @@ function useCreateListing() {
 
   // submit form
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    setError("");
     e.preventDefault();
     if (!files?.length) {
       setError("please upload at least 1 image");

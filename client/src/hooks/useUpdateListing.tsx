@@ -17,6 +17,7 @@ import { setUser } from "../redux/features/userSlice";
 
 import { ListingDataForm } from "../types/typings";
 import { initialListingDataForm } from "../constants";
+import { toast } from "react-toastify";
 
 function useUpdateListing() {
   const { currentUser } = useAppSelector((state) => state.user);
@@ -33,10 +34,10 @@ function useUpdateListing() {
       const res = await fetch(`/api/property/${id}`);
       const data = await res.json();
       if (data.success === false) {
-        console.log(data.message);
+        toast.error(data.message);
         return;
       }
-      if (data.property.user !== currentUser?._id) {
+      if (data.property.user._id !== currentUser?._id) {
         navigate("/");
       }
       delete data.property.user;

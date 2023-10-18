@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { signOut } from "../redux/features/userSlice";
+import { toast } from "react-toastify";
 function useProfileActions() {
   const dispatch = useAppDispatch();
   const { currentUser } = useAppSelector((state) => state.user);
@@ -16,6 +17,7 @@ function useProfileActions() {
         return;
       }
       dispatch(signOut());
+      toast.success("Profile has been deleted");
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);
@@ -28,7 +30,6 @@ function useProfileActions() {
       const res = await fetch(`/api/auth/signout`);
       const data = await res.json();
       if (!data.success) {
-        console.log("here");
         setError(data.message);
         return;
       }
