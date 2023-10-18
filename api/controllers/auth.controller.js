@@ -17,9 +17,15 @@ const signup = async (req, res) => {
     // hash the password
     const hashedPassword = bcryptjs.hashSync(password, 10);
     const newUser = new User({ username, email, password: hashedPassword })
-    await newUser.save()
+    await newUser.save();
+
+    const user = await User.findOne({ email }).select("-password").populate("properties");
+    // generate the token
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+
+
     // response to client
-    res.status(StatusCodes.CREATED).json({ message: 'User Created Successfully', success: true })
+    res.cookie('access_token', token, { httpOnly: true }).status(StatusCodes.OK).json({ message: 'Signed Up Successfully', user, success: true })
 }
 
 

@@ -1,7 +1,11 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { SignUpForm } from "../types/typings";
 import { useNavigate } from "react-router-dom";
+// Redux
+import { useAppDispatch } from "../redux/hooks";
+import { setUser } from "../redux/features/userSlice";
 function useSignUp() {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const initialState = {
     username: "",
@@ -34,6 +38,7 @@ function useSignUp() {
       return;
     }
     try {
+      setError("");
       setLoading(true);
       const res = await fetch("/api/auth/signup", {
         method: "POST",
@@ -48,11 +53,9 @@ function useSignUp() {
         setError(data.message);
         return;
       }
-      if (data.success) {
-        setError("");
-        setAuthForm(initialState);
-        navigate("/sign-in");
-      }
+      setAuthForm(initialState);
+      dispatch(setUser(data.user));
+      navigate("/");
     } catch (error) {
       setLoading(false);
       if (error instanceof Error) {

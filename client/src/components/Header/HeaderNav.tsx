@@ -18,7 +18,7 @@ function HeaderNav() {
         {currentUser ? (
           <Link to="/profile">
             <img
-              src={currentUser.avatar}
+              src={currentUser?.avatar}
               className="rounded-full h-7 w-7 object-cover"
             />
           </Link>
