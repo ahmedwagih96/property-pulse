@@ -9,6 +9,7 @@ import {
   UpdateListing,
   Listing,
   Search,
+  NotFound,
 } from "./pages";
 import { Header } from "./components";
 import { useAppSelector } from "./redux/hooks";
@@ -42,6 +43,8 @@ function App() {
           path="/sign-up"
           element={!currentUser ? <SignUp /> : <Navigate to="/" />}
         />
+        <Route path="/404" element={<NotFound />} />
+        <Route path="*" element={<Navigate to="/404" />} />
       </Routes>
     </BrowserRouter>
   );

@@ -7,6 +7,7 @@ import CreateListing from "./CreateListing";
 import UpdateListing from "./UpdateListing";
 import Listing from "./Listing";
 import Search from "./Search";
+import NotFound from "./NotFound";
 export {
   Home,
   SignIn,
@@ -17,4 +18,5 @@ export {
   UpdateListing,
   Listing,
   Search,
+  NotFound
 };
