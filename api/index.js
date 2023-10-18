@@ -33,15 +33,14 @@ app.use('/api/user', require("./routes/user.route.js"))
 app.use('/api/auth', require('./routes/auth.route.js'))
 app.use('/api/property', require('./routes/property.route.js'))
 
+const staticPath = path.join(__dirname, "..", '/client/dist');
+app.use(express.static(path.join(staticPath, '/client/dist')));
 
-const __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, '/client/dist')));
-
-// Error Handler Middleware 
+// Error Handler Middleware
 app.use(errorHandler);
 
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+    res.sendFile(path.join(staticPath, 'client', 'dist', 'index.html'));
 })
 
 // Running The Server
