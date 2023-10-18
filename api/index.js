@@ -2,7 +2,6 @@ require('dotenv').config();
 require("express-async-errors");
 const connectDB = require('./db/connect')
 const xss = require('xss-clean')
-const helmet = require('helmet')
 const hpp = require('hpp');
 const { errorHandler } = require('./middleware/error');
 const cookieParser = require('cookie-parser')
@@ -13,8 +12,7 @@ const app = express();
 app.use(express.json())
 app.use(cookieParser());
 
-// Security Headers (helmet)
-app.use(helmet());
+
 // Prevent XSS(Cross Site Scripting) Attacks
 app.use(xss());
 // Protect Http Param Pollution
@@ -35,7 +33,6 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(staticPath, 'index.html'));
 })
 
-console.log(path.join(staticPath, 'index.html'))
 
 const start = async () => {
     try {
