@@ -8,7 +8,7 @@ const hpp = require('hpp');
 const { errorHandler } = require('./middleware/error');
 const cookieParser = require('cookie-parser')
 const express = require('express');
-
+const path = require('path')
 const app = express();
 
 app.use(express.json())
@@ -33,8 +33,16 @@ app.use('/api/user', require("./routes/user.route.js"))
 app.use('/api/auth', require('./routes/auth.route.js'))
 app.use('/api/property', require('./routes/property.route.js'))
 
+
+const __dirname = path.resolve();
+app.use(express.static(path.join(__dirname, '/client/dist')));
+
 // Error Handler Middleware
 app.use(errorHandler);
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+})
 
 // Running The Server
 const PORT = process.env.PORT || 8000
