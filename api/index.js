@@ -1,13 +1,33 @@
 require('dotenv').config();
 require("express-async-errors");
 const connectDB = require('./db/connect')
-const express = require('express')
-const app = express()
+const xss = require('xss-clean')
+const rateLimiting = require('express-rate-limit');
+const helmet = require('helmet')
+const hpp = require('hpp');
 const { errorHandler } = require('./middleware/error');
 const cookieParser = require('cookie-parser')
+const express = require('express');
+
+const app = express();
+
 app.use(express.json())
 app.use(cookieParser());
 
+// Security Headers (helmet)
+app.use(helmet());
+
+// Prevent XSS(Cross Site Scripting) Attacks
+app.use(xss());
+
+// Protect Http Param Pollution
+app.use(hpp());
+
+// Rate Limiting 
+app.use(rateLimiting({
+    windowMs: 10 * 60 * 1000, // 10 minutes
+    max: 200,
+}))
 // Routes
 app.use('/api/user', require("./routes/user.route.js"))
 app.use('/api/auth', require('./routes/auth.route.js'))
