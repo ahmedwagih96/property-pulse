@@ -41,6 +41,7 @@ import UpdateListingForm from "./Forms/UpdateListingForm";
 import OAuth from "./OAuth";
 import ListingItem from "./ListingItem";
 import Seo from "./Seo";
+import LoadingSpinner from "./LoadingSpinner";
 export {
   Header,
   HeaderLogo,
@@ -70,5 +71,6 @@ export {
   Landing,
   SaleListings,
   RentListings,
-  Seo
+  Seo,
+  LoadingSpinner
 };

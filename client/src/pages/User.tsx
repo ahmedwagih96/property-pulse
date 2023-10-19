@@ -1,4 +1,4 @@
-import { ListingItem, Seo } from "../components";
+import { ListingItem, LoadingSpinner, Seo } from "../components";
 import useFetchUser from "../hooks/useFetchUser";
 
 function User() {
@@ -10,7 +10,7 @@ function User() {
         title={user ? user?.username : ""}
         canonicalUrl={`/users/${user?._id}`}
       />
-      {loading ? <p className="text-center my-7 text-2xl">Loading...</p> : null}
+      {loading ? <LoadingSpinner /> : null}
       {!loading && user ? (
         <>
           <div className="flex flex-col justify-center items-center my-4">

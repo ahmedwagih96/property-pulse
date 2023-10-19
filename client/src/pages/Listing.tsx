@@ -3,6 +3,7 @@ import {
   ImageSlider,
   ListingDescription,
   ListingInfo,
+  LoadingSpinner,
   Seo,
   ShareButton,
 } from "../components";
@@ -16,8 +17,8 @@ export default function Listing() {
         title={listing ? listing.name : ""}
         canonicalUrl={`/listing/${listing?._id}`}
       />
-      {loading ? <p className="text-center my-7 text-2xl">Loading...</p> : null}
-      {listing ? (
+      {loading ? <LoadingSpinner/> : null}
+      {!loading && listing ? (
         <>
           <ImageSlider imageUrls={listing.imageUrls} />
           <ShareButton />

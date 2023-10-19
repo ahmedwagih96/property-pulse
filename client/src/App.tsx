@@ -11,14 +11,14 @@ const SignIn = lazy(() => import("./pages/SignIn"));
 const SignUp = lazy(() => import("./pages/SignUp"));
 const User = lazy(() => import("./pages/User"));
 const NotFound = lazy(() => import("./pages/NotFound"));
-import { Header } from "./components";
+import { Header, LoadingSpinner } from "./components";
 import { useAppSelector } from "./redux/hooks";
 function App() {
   const { currentUser } = useAppSelector((state) => state.user);
   return (
     <BrowserRouter>
       <Header />
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LoadingSpinner/>}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />

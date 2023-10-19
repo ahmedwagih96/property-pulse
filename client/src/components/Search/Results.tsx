@@ -1,7 +1,11 @@
-import { ListingItem } from "../";
+import { ListingItem, LoadingSpinner } from "../";
 import useFetchListings from "../../hooks/useFetchListings";
 function Results() {
   const { listings, loading, showMore, fetchMoreListings } = useFetchListings();
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+  
   return (
     <div className="flex-1">
       <h1 className="text-3xl font-semibold border-b p-3 text-slate-700 mt-5">
