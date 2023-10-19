@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ListingsType } from "../types/mongoTypes";
+import { toast } from "react-toastify";
 function useListing() {
   const params = useParams();
   const [listing, setListing] = useState<null | ListingsType>(null);
@@ -12,6 +13,7 @@ function useListing() {
       const data = await res.json();
       setLoading(false);
       if (data.success === false) {
+        toast.error("something went wrong please try again");
         return;
       }
       setListing(data.property);

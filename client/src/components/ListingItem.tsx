@@ -3,7 +3,6 @@ import { MdLocationOn } from "react-icons/md";
 import { ListingsType } from "../types/mongoTypes";
 
 export default function ListingItem({ listing }: { listing: ListingsType }) {
-  console.log(listing);
   return (
     <div className="bg-white  hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-full sm:w-[330px] p-3 flex flex-col gap-3">
       <img
@@ -14,12 +13,12 @@ export default function ListingItem({ listing }: { listing: ListingsType }) {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <img
-            src={listing.user.avatar}
+            src={listing.user?.avatar}
             alt="owner profile"
             className="h-8 w-8 rounded-full object-cover cursor-pointer"
           />
           <Link
-            to={`/users/${listing._id}`}
+            to={`/users/${listing.user?._id}`}
             className="text-sm font-semibold text-slate-700 cursor-pointer"
           >
             {listing.user.username}

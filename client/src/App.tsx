@@ -9,6 +9,7 @@ const CreateListing = lazy(() => import("./pages/CreateListing"));
 const UpdateListing = lazy(() => import("./pages/UpdateListing"));
 const SignIn = lazy(() => import("./pages/SignIn"));
 const SignUp = lazy(() => import("./pages/SignUp"));
+const User = lazy(() => import("./pages/User"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 import { Header } from "./components";
 import { useAppSelector } from "./redux/hooks";
@@ -26,6 +27,7 @@ function App() {
             path="/profile"
             element={currentUser ? <Profile /> : <Navigate to="/" />}
           />
+          <Route path="/users/:id" element={<User />} />
           <Route path="/listing/:id" element={<Listing />} />
           <Route
             path="/create-listing"

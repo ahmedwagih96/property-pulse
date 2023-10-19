@@ -15,7 +15,7 @@ export default function Listing() {
         <>
           <ImageSlider imageUrls={listing.imageUrls} />
           <ShareButton />
-          <div className="flex flex-col max-w-4xl mx-auto p-3 my-7 gap-4">
+          <div className="flex flex-col max-w-4xl mx-auto p-3 my-7 gap-2">
             <ListingDescription listing={listing} />
             <ListingInfo listing={listing} />
             <Contact listing={listing} />

@@ -1,8 +1,24 @@
+import { Link } from "react-router-dom";
 import { ListingsType } from "../../types/mongoTypes";
 import { FaMapMarkerAlt } from "react-icons/fa";
 function ListingDescription({ listing }: { listing: ListingsType }) {
   return (
     <>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <img
+            src={listing.user?.avatar}
+            alt="owner profile"
+            className="h-8 w-8 rounded-full object-cover cursor-pointer"
+          />
+          <Link
+            to={`/users/${listing.user?._id}`}
+            className="text-sm font-semibold text-slate-700 cursor-pointer"
+          >
+            {listing.user.username}
+          </Link>
+        </div>
+      </div>
       <p className="text-2xl font-semibold">
         {listing.name} - ${" "}
         {listing.offer
@@ -10,7 +26,7 @@ function ListingDescription({ listing }: { listing: ListingsType }) {
           : listing.regularPrice.toLocaleString("en-US")}
         {listing.type === "rent" && " / month"}
       </p>
-      <p className="flex items-center mt-6 gap-2 text-slate-600  text-sm">
+      <p className="flex items-center gap-2 text-slate-600  text-sm">
         <FaMapMarkerAlt className="text-green-700" />
         {listing.address}
       </p>
