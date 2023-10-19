@@ -1,10 +1,15 @@
-import { ListingItem } from "../components";
+import { ListingItem, Seo } from "../components";
 import useFetchUser from "../hooks/useFetchUser";
 
 function User() {
   const { user, loading } = useFetchUser();
   return (
     <main className="max-w-6xl mx-auto p-4">
+      <Seo
+        description={`Explore ${user?.username}'s profile on Property Pulse. View and manage personalized property preferences, transaction history, and more. Join our community for a tailored real estate journey.`}
+        title={user ? user?.username : ""}
+        canonicalUrl={`/users/${user?._id}`}
+      />
       {loading ? <p className="text-center my-7 text-2xl">Loading...</p> : null}
       {!loading && user ? (
         <>
@@ -32,7 +37,8 @@ function User() {
             </p>
           </div>
           <h2 className="text-slate-500 font-bold text-xl lg:text-3xl">
-            All Listings by <span className="text-slate-700">{user?.username}</span>
+            All Listings by{" "}
+            <span className="text-slate-700">{user?.username}</span>
           </h2>
           {user?.properties?.length ? (
             <div className="mt-8 grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">

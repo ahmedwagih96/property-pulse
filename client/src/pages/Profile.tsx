@@ -1,10 +1,15 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Listings, ProfileActions, ProfileForm } from "../components";
+import { Listings, ProfileActions, ProfileForm, Seo } from "../components";
 export default function Profile() {
   const [showListings, setShowListings] = useState<boolean>(false);
   return (
-    <div className="p-3 max-w-lg mx-auto">
+    <main className="p-3 max-w-lg mx-auto">
+      <Seo
+       description={`Manage your listings and update your profile on Property Pulse. Explore and edit property details, keep your listings current, and ensure your personal information is up-to-date. Experience personalized control over your real estate journey with Property Pulse.`}
+        title='Your Profile'
+        canonicalUrl={`/profile`}
+      />
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
       <ProfileForm />
       <Link
@@ -21,6 +26,6 @@ export default function Profile() {
         {showListings ? "Hide Listings" : "Show Listings"}
       </button>
       {showListings ? <Listings /> : null}
-    </div>
+    </main>
   );
 }

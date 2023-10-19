@@ -40,7 +40,7 @@ import UpdateListingForm from "./Forms/UpdateListingForm";
 // REUSABLE COMPONENTS
 import OAuth from "./OAuth";
 import ListingItem from "./ListingItem";
-
+import Seo from "./Seo";
 export {
   Header,
   HeaderLogo,
@@ -70,4 +70,5 @@ export {
   Landing,
   SaleListings,
   RentListings,
+  Seo
 };

@@ -1,8 +1,15 @@
 import { Link } from "react-router-dom";
-
+import { Seo } from "../components";
 export default function About() {
   return (
     <main className="py-20 px-4 max-w-6xl mx-auto">
+      <Seo
+        description="Property Pulse is a leading real estate agency that specializes in
+        helping clients buy, sell, and rent properties in the most desirable
+        neighborhoods."
+        title="About"
+        canonicalUrl="/about"
+      />
       <h1 className="text-3xl font-bold mb-4 text-slate-800">
         About Property Pulse
       </h1>

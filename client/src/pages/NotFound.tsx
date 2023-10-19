@@ -1,8 +1,14 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { Seo } from "../components";
 
 const NotFound = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+    <main className="flex flex-col items-center justify-center h-screen bg-gray-100">
+      <Seo
+        description="Oops! It seems like the page you're looking for doesn't exist. Property Pulse can help you find your way back home or explore other exciting real estate opportunities. Navigate with us to discover your next property adventure!"
+        title="Not Found"
+        canonicalUrl={`/404`}
+      />
       <div className="flex flex-col gap-6 pt-28 pb-8 px-3 max-w-6xl mx-auto text-center">
         <h1 className="text-red-500 font-bold text-3xl lg:text-6xl">
           Oops! Page not found
@@ -19,7 +25,7 @@ const NotFound = () => {
           Go back to Home
         </Link>
       </div>
-    </div>
+    </main>
   );
 };
 

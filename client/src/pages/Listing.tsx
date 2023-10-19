@@ -3,6 +3,7 @@ import {
   ImageSlider,
   ListingDescription,
   ListingInfo,
+  Seo,
   ShareButton,
 } from "../components";
 import useListing from "../hooks/useListing";
@@ -10,6 +11,11 @@ export default function Listing() {
   const { listing, loading } = useListing();
   return (
     <main>
+      <Seo
+        description={`Explore details of ${listing?.name} on Property Pulse. Discover key features, photos, and information about this property. Find your perfect home, investment, or rental opportunity in the most desirable neighborhoods.`}
+        title={listing ? listing.name : ""}
+        canonicalUrl={`/listing/${listing?._id}`}
+      />
       {loading ? <p className="text-center my-7 text-2xl">Loading...</p> : null}
       {listing ? (
         <>
