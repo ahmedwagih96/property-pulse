@@ -42,6 +42,8 @@ import OAuth from "./OAuth";
 import ListingItem from "./ListingItem";
 import Seo from "./Seo";
 import LoadingSpinner from "./LoadingSpinner";
+import Landlord from "./Landlord";
+import LoadingSkeletons from "./LoadingSkeletons";
 export {
   Header,
   HeaderLogo,
@@ -72,5 +74,7 @@ export {
   SaleListings,
   RentListings,
   Seo,
-  LoadingSpinner
+  LoadingSpinner,
+  Landlord,
+  LoadingSkeletons,
 };

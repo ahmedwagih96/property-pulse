@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { MdLocationOn } from "react-icons/md";
 import { ListingsType } from "../types/mongoTypes";
+import { Landlord } from ".";
 
 export default function ListingItem({ listing }: { listing: ListingsType }) {
   return (
@@ -10,21 +11,7 @@ export default function ListingItem({ listing }: { listing: ListingsType }) {
         alt="listing cover"
         className="h-[320px] sm:h-[220px] w-full object-cover hover:scale-105 transition-scale duration-300"
       />
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <img
-            src={listing.user?.avatar}
-            alt="owner profile"
-            className="h-8 w-8 rounded-full object-cover cursor-pointer"
-          />
-          <Link
-            to={`/users/${listing.user?._id}`}
-            className="text-sm font-semibold text-slate-700 cursor-pointer"
-          >
-            {listing.user.username}
-          </Link>
-        </div>
-      </div>
+      <Landlord listing={listing} />
       <div className="flex flex-col gap-2 w-full">
         <p className="truncate text-lg font-semibold text-slate-700">
           {listing.name}

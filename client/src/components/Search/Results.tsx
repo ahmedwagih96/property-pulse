@@ -1,24 +1,27 @@
-import { ListingItem, LoadingSpinner } from "../";
-import useFetchListings from "../../hooks/useFetchListings";
-function Results() {
-  const { listings, loading, showMore, fetchMoreListings } = useFetchListings();
-  if (loading) {
-    return <LoadingSpinner />;
-  }
-  
+import { ListingItem, LoadingSkeletons } from "../";
+import { ListingsType } from "../../types/mongoTypes";
+
+type ResultsProps = {
+  listings: ListingsType[];
+  loading: boolean;
+  showMore: boolean;
+  fetchMoreListings: () => void;
+};
+function Results({
+  listings,
+  loading,
+  showMore,
+  fetchMoreListings,
+}: ResultsProps) {
   return (
-    <div className="flex-1">
+    <div className="flex-1 relative">
       <h1 className="text-3xl font-semibold border-b p-3 text-slate-700 mt-5">
         Listing results:
       </h1>
       <div className="p-7 flex flex-wrap gap-4">
+        {loading ? <LoadingSkeletons number={8} /> : null}
         {!loading && listings.length === 0 ? (
           <p className="text-xl text-slate-700">No listing found!</p>
-        ) : null}
-        {loading ? (
-          <p className="text-xl text-slate-700 text-center w-full">
-            Loading...
-          </p>
         ) : null}
         {!loading && listings
           ? listings.map((listing) => (

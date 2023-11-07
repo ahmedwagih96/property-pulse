@@ -1,24 +1,10 @@
-import { Link } from "react-router-dom";
 import { ListingsType } from "../../types/mongoTypes";
 import { FaMapMarkerAlt } from "react-icons/fa";
+import { Landlord } from "..";
 function ListingDescription({ listing }: { listing: ListingsType }) {
   return (
     <>
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <img
-            src={listing.user?.avatar}
-            alt="owner profile"
-            className="h-8 w-8 rounded-full object-cover cursor-pointer"
-          />
-          <Link
-            to={`/users/${listing.user?._id}`}
-            className="text-sm font-semibold text-slate-700 cursor-pointer"
-          >
-            {listing.user.username}
-          </Link>
-        </div>
-      </div>
+      <Landlord listing={listing} />
       <p className="text-2xl font-semibold">
         {listing.name} - ${" "}
         {listing.offer

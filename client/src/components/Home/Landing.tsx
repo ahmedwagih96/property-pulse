@@ -8,8 +8,10 @@ function Landing() {
         <p className="text-gray-600 text-xl">
           Welcome to Property Pulse, where finding your perfect home is just a
           click away. <br />
-          Explore a wide range of stunning properties tailored to your
-          lifestyle.
+          <span className="hidden sm:inline-block">
+            Explore a wide range of stunning properties tailored to your
+            lifestyle.
+          </span>
         </p>
       </div>
     </>

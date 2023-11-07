@@ -6,12 +6,18 @@ import {
   useState,
 } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { handleFormInputs } from "../utils/handleFormInputs";
 import { Queries } from "../types/typings";
 import { toast } from "react-toastify";
+import { ListingsType } from "../types/mongoTypes";
+import { handleFormInputs } from "../utils/handleFormInputs";
+import { getCurrentQueries } from "../utils/getCurrentQueries";
 function useSearch() {
   const navigate = useNavigate();
+
   const [searchParams] = useSearchParams();
+  const [listings, setListings] = useState<ListingsType[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [showMore, setShowMore] = useState<boolean>(false);
   const [queries, setQueries] = useState<Queries>({
     searchName: searchParams.get("searchName") || "",
     sort: searchParams.get("sort") || "",
@@ -24,7 +30,42 @@ function useSearch() {
       ...prev,
       searchName: searchParams.get("searchName") || "",
     }));
+    const query = new URLSearchParams(
+      Array.from(searchParams.entries())
+    ).toString();
+    fetchListings(query);
   }, [searchParams]);
+
+  const fetchMoreListings = () => {
+    const query = new URLSearchParams(Array.from(searchParams.entries()));
+    const startIndex = listings.length;
+    query.set("startIndex", startIndex.toString());
+    const updatedQueries = query.toString();
+    navigate(`/search?${updatedQueries}`);
+  };
+
+  const fetchListings = async (query: string) => {
+    try {
+      setLoading(true);
+      const res = await fetch(`api/property?${query}`);
+      const data = await res.json();
+      setLoading(false);
+      if (!data.success) {
+        toast.error(data.message);
+      }
+      if (data.properties.length > 8) {
+        setShowMore(true);
+      } else {
+        setShowMore(false);
+      }
+      setListings(data.properties);
+    } catch (error) {
+      setLoading(false);
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    }
+  };
 
   const handleQueries = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -32,36 +73,22 @@ function useSearch() {
     setQueries(handleFormInputs(e, queries) as SetStateAction<Queries>);
   };
 
-  // Search Page Submit
+  // Search Form Submit
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const current = new URLSearchParams(Array.from(searchParams.entries()));
-    queries.searchName
-      ? current.set("searchName", queries.searchName)
-      : current.delete("searchName");
-    queries.sort ? current.set("sort", queries.sort) : current.delete("sort");
-    queries.type ? current.set("type", queries.type) : current.delete("type");
-    queries.parking
-      ? current.set("parking", "true")
-      : current.delete("parking");
-    queries.furnished
-      ? current.set("furnished", "true")
-      : current.delete("furnished");
-
-    const query = current.toString();
+    const query = getCurrentQueries(searchParams, queries);
     // Navigate to the search page with updated parameters
-    navigate(`/search?${query}`);
+    navigate(`/search?${query ? query : ""}`);
   };
 
-  // Search Bar Submit
-  const handleSearchBar = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!queries.searchName) {
-      toast.error("Please type a listing name");
-      return;
-    }
-    navigate(`/search?searchName=${queries.searchName}`);
+  return {
+    handleSubmit,
+    queries,
+    handleQueries,
+    loading,
+    showMore,
+    listings,
+    fetchMoreListings,
   };
-  return { handleSubmit, queries, handleQueries, handleSearchBar };
 }
 export default useSearch;

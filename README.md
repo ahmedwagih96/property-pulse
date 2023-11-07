@@ -56,3 +56,19 @@ The root project has `client` and `api` folders.
 	- cd client 
     - npm install
 	- npm run dev 
+
+## Local Environment Setup
+
+- **Frontend:**
+Create a `.env` file in the `client` folder with the following content:
+- VITE_FIREBASE_API_KEY=YOUR_FIREBASE_API_KEY
+- VITE_FIREBASE_AUTH_DOMAIN=YOUR_FIREBASE_AUTH_DOMAIN
+- VITE_FIREBASE_PROJECT_ID=YOUR_FIREBASE_PROJECT_ID
+- VITE_FIREBASE_STORAGE_BUCKET=YOUR_FIREBASE_STORAGE_BUCKET
+- VITE_FIREBASE_MESSAGING_SENDER_ID=YOUR_FIREBASE_MESSAGING_SENDER_ID
+- VITE_FIREBASE_APP_ID=YOUR_FIREBASE_APP_ID
+
+- **Backend:**
+ Create a `.env` file in the `root` folder with the following content:
+- MONGODB_URI=YOUR_MONGODB_URI
+- JWT_SECRET=YOUR_JWT_SECRET

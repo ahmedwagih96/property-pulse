@@ -1,6 +1,18 @@
-import useSearch from "../../hooks/useSearch";
-function Sidebar() {
-  const { queries, handleQueries, handleSubmit } = useSearch();
+import { ChangeEvent, FormEvent } from "react";
+import { Queries } from "../../types/typings";
+
+type SidebarProps = {
+  queries: Queries;
+  handleQueries: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  loading: boolean;
+};
+function Sidebar({
+  queries,
+  handleQueries,
+  handleSubmit,
+  loading,
+}: SidebarProps) {
   return (
     <aside className="p-7  border-b-2 md:border-r-2 md:min-h-screen">
       <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
@@ -25,13 +37,13 @@ function Sidebar() {
               name="parking"
               className="w-5"
               onChange={handleQueries}
-              checked ={queries.parking}
-              />
+              checked={queries.parking}
+            />
             <span>Parking</span>
           </div>
           <div className="flex gap-2">
             <input
-              checked ={queries.furnished}
+              checked={queries.furnished}
               type="checkbox"
               name="furnished"
               className="w-5"
@@ -68,8 +80,11 @@ function Sidebar() {
             <option value="-bedrooms">Number of rooms</option>
           </select>
         </div>
-        <button className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95">
-          Search
+        <button
+          disabled={loading}
+          className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95"
+        >
+          {loading ? "Searching..." : "Search"}
         </button>
       </form>
     </aside>

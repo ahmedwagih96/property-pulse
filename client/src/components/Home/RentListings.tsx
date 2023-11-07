@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ListingsType } from "../../types/mongoTypes";
-import { ListingItem, LoadingSpinner } from "..";
+import { ListingItem, LoadingSkeletons } from "..";
 import { toast } from "react-toastify";
 function RentListings() {
   const [rentListings, setRentListings] = useState<ListingsType[]>([]);
@@ -21,24 +21,25 @@ function RentListings() {
     fetchRentListings();
   }, []);
 
-  if (loading) {
-    return <LoadingSpinner />;
-  }
   return (
-    <>
-      {rentListings && rentListings.length > 0 ? (
-        <section>
-          <h2 className="my-3 text-2xl font-semibold text-slate-600">
-            Recent places for rent
-          </h2>
-          <div className="flex flex-wrap gap-4">
-            {rentListings.map((listing) => (
-              <ListingItem listing={listing} key={listing._id} />
-            ))}
-          </div>
-        </section>
-      ) : null}
-    </>
+    <section>
+      <h2 className="my-3 text-2xl font-semibold text-slate-600">
+        Recent places for sale
+      </h2>
+      <div className="flex flex-wrap gap-4">
+        {loading ? (
+          <LoadingSkeletons number={4} />
+        ) : rentListings && rentListings.length > 0 ? (
+          rentListings.map((listing) => (
+            <ListingItem listing={listing} key={listing._id} />
+          ))
+        ) : (
+          <p className="text-xl text-slate-700">
+            There are currently no listings for rent!
+          </p>
+        )}
+      </div>
+    </section>
   );
 }
 
