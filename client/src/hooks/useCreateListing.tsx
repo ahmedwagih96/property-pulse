@@ -83,6 +83,8 @@ function useCreateListing() {
       });
       const data = await res.json();
       setLoading(false);
+      setFiles(undefined);
+      setFormData(initialListingDataForm);
       if (!data.success) {
         setError(data.message);
       }

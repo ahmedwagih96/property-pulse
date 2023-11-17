@@ -3,7 +3,7 @@
 
 ## Overview
 
-Property Pulse is a full-stack real estate web application built with React (TypeScript) and typescript for the frontend, Node.js, Express, and MongoDB for the backend. The web app provides comprehensive CRUD functionality. Additionally, it supports secure authentication with JWT & Google authentication through Firebase.
+Property Pulse is a full-stack real estate web application built with React (TypeScript) and tailwind for the frontend, Node.js, Express, and MongoDB for the backend. The web app provides comprehensive CRUD functionality. Additionally, it supports secure authentication with JWT & Google authentication through Firebase.
 
 ## Tech Stack
 
