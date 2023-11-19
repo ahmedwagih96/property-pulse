@@ -16,6 +16,7 @@ function useSearch() {
 
   const [searchParams] = useSearchParams();
   const [listings, setListings] = useState<ListingsType[]>([]);
+  const [count, setCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [showMore, setShowMore] = useState<boolean>(false);
   const [queries, setQueries] = useState<Queries>({
@@ -34,6 +35,8 @@ function useSearch() {
       Array.from(searchParams.entries())
     ).toString();
     fetchListings(query);
+
+    window.scrollTo(0, 0);
   }, [searchParams]);
 
   const fetchMoreListings = () => {
@@ -59,6 +62,7 @@ function useSearch() {
         setShowMore(false);
       }
       setListings(data.properties);
+      setCount(data.count);
     } catch (error) {
       setLoading(false);
       if (error instanceof Error) {
@@ -89,6 +93,7 @@ function useSearch() {
     showMore,
     listings,
     fetchMoreListings,
+    count,
   };
 }
 export default useSearch;

@@ -9,9 +9,12 @@ export default function Search() {
     showMore,
     listings,
     fetchMoreListings,
+    count
   } = useSearch();
+
+
   return (
-    <main className="flex flex-col md:flex-row">
+    <main className="flex flex-col xl:flex-row">
       <Seo
         description="Discover a wide range of properties with Property Pulse's powerful search feature. Find your dream home, explore rental options, or discover investment opportunities in the most sought-after neighborhoods. Start your property search journey now!"
         title="Search"
@@ -28,6 +31,7 @@ export default function Search() {
         loading={loading}
         showMore={showMore}
         fetchMoreListings={fetchMoreListings}
+        count = {count}
       />
     </main>
   );

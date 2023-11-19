@@ -14,7 +14,7 @@ function Sidebar({
   loading,
 }: SidebarProps) {
   return (
-    <aside className="p-7  border-b-2 md:border-r-2 md:min-h-screen">
+    <aside className="p-7  border-b-2 md:border-r-2 xl:min-h-screen">
       <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
         <div className="flex items-center gap-2">
           <label className="whitespace-nowrap font-semibold">
@@ -24,7 +24,7 @@ function Sidebar({
             type="text"
             name="searchName"
             placeholder="Search..."
-            className="border rounded-lg p-3 w-full"
+            className="border rounded-lg p-3 w-full max-w-[300px]"
             value={queries.searchName}
             onChange={handleQueries}
           />
@@ -82,7 +82,7 @@ function Sidebar({
         </div>
         <button
           disabled={loading}
-          className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95"
+          className="bg-slate-700 text-white px-3 py-2 rounded-lg uppercase hover:opacity-95 w-fit m-auto"
         >
           {loading ? "Searching..." : "Search"}
         </button>

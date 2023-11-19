@@ -54,11 +54,12 @@ function useCreateListing() {
       return;
     }
     setLoading(true);
+    const images: string[] = [];
     for (let i = 0; i < files.length; i++) {
       await uploadImage(files[i])
         .then((result) => {
           if (result.downloadURL) {
-            formData.imageUrls.push(result.downloadURL);
+            images.push(result.downloadURL as string);
           } else {
             const errorMessage = result.error
               ? result.error.message
@@ -68,7 +69,8 @@ function useCreateListing() {
         })
         .catch(() => {
           setFileUploadError("Unexpected error occurred");
-        });
+        })
+      
     }
     try {
       setError("");
@@ -78,7 +80,7 @@ function useCreateListing() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          ...formData,
+          ...formData, imageUrls: images
         }),
       });
       const data = await res.json();

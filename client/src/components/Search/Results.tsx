@@ -1,4 +1,4 @@
-import { ListingItem, LoadingSkeletons } from "../";
+import { ListingItem, LoadingSkeletons, Pagination } from "../";
 import { ListingsType } from "../../types/mongoTypes";
 
 type ResultsProps = {
@@ -6,12 +6,14 @@ type ResultsProps = {
   loading: boolean;
   showMore: boolean;
   fetchMoreListings: () => void;
+  count: number
 };
 function Results({
   listings,
   loading,
   showMore,
   fetchMoreListings,
+  count
 }: ResultsProps) {
   return (
     <div className="flex-1 relative">
@@ -37,6 +39,7 @@ function Results({
           </button>
         ) : null}
       </div>
+      <Pagination count = {count}/>
     </div>
   );
 }

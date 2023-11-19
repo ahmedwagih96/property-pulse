@@ -30,6 +30,7 @@ import ImageSlider from "./Listing/ImageSlider";
 // SEARCH PAGE
 import Sidebar from "./Search/Sidebar";
 import Results from "./Search/Results";
+import Pagination from "./Search/Pagination";
 // FORMS
 import SignUpForm from "./Forms/SignUpForm";
 import SignInForm from "./Forms/SignInForm";
@@ -69,6 +70,7 @@ export {
   Contact,
   Sidebar,
   Results,
+  Pagination,
   ListingItem,
   Landing,
   SaleListings,

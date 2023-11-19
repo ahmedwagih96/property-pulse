@@ -8,7 +8,7 @@ function RentListings() {
   useEffect(() => {
     const fetchRentListings = async () => {
       try {
-        const res = await fetch("/api/property?type=rent&limit=4");
+        const res = await fetch("/api/property?type=rent&limit=3");
         const data = await res.json();
         setRentListings(data.properties);
         setLoading(false);

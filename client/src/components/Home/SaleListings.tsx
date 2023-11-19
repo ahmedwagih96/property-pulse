@@ -8,7 +8,7 @@ function SaleListings() {
   useEffect(() => {
     const fetchSaleListings = async () => {
       try {
-        const res = await fetch("/api/property?type=sale&limit=4");
+        const res = await fetch("/api/property?type=sale&limit=3");
         const data = await res.json();
         setSaleListings(data.properties);
         setLoading(false);

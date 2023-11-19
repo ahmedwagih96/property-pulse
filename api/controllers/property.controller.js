@@ -4,7 +4,7 @@ const { User } = require('../models/user.model.js');
 
 
 const getAllProperties = async (req, res) => {
-    const { parking, furnished, type, sort, searchName, startIndex } = req.query;
+    const { parking, furnished, type, sort, searchName, pageNumber } = req.query;
 
     const queries = {}
     if (parking) queries.parking = true
@@ -14,17 +14,20 @@ const getAllProperties = async (req, res) => {
 
     let results = Property.find(queries);
 
-    const limit = Number(req.query.limit) || 9;
-    const skip = Number(startIndex) || 0;
+    const page = Number(pageNumber) || 1;
+    const limit = Number(req.query.limit) || 8;
+    const skip = (page - 1) * limit;
 
     sort ? results.sort(sort)
-        : results.sort('createdAt')
+        : results.sort('-createdAt')
 
-    results = results.limit(limit).skip(skip)
+    results = results.skip(skip).limit(limit)
 
     const properties = await results.populate("user", ['-password']);
 
-    return res.status(StatusCodes.OK).json({ success: true, properties })
+    const count = await Property.find(queries).count()
+
+    return res.status(StatusCodes.OK).json({ success: true, properties, count })
 
 }
 
