@@ -3,13 +3,14 @@ import useCreateListing from "../../hooks/useCreateListing";
 
 function CreateListingForm() {
   const {
-    setFiles,
+    addFiles,
     handleSubmit,
     loading,
     files,
     formData,
     removeFile,
     handleFormChange,
+    handleOnDragEnd,
     error,
     fileUploadError,
   } = useCreateListing();
@@ -24,7 +25,7 @@ function CreateListingForm() {
         <p className="font-semibold">
           Images:
           <span className="font-normal text-gray-600 ml-2">
-            The first image will be the cover (max 6)
+            The first image will be the cover (max 6 images)
           </span>
         </p>
         <div className="flex gap-4">
@@ -33,14 +34,18 @@ function CreateListingForm() {
             type="file"
             accept="image/*"
             multiple
-            onChange={(e) => e.target.files && setFiles(e.target.files)}
+            onChange={(e) => e.target.files && addFiles(e.target.files)}
           />
           {fileUploadError ? (
             <p className="text-red-700 text-sm">{fileUploadError}</p>
           ) : null}
         </div>
         {files?.length ? (
-          <SelectedImages files={files} removeFile={removeFile} />
+          <SelectedImages
+            files={files}
+            removeFile={removeFile}
+            handleOnDragEnd={handleOnDragEnd}
+          />
         ) : null}
         <button
           disabled={loading}

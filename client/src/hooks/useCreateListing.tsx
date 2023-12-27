@@ -3,13 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { ListingDataForm } from "../types/typings";
 // utils
 import { uploadImage } from "../utils/uploadImage";
-import { updateFileList } from "../utils/updateFileList";
+import {
+  updateFileList,
+  addFileToList,
+  sortFileList,
+} from "../utils/updateFileList";
 import { handleFormInputs } from "../utils/handleFormInputs";
 import { initialListingDataForm } from "../constants";
 import { validateCreateListingForm } from "../utils/formValidations";
 // Redux
 import { useAppDispatch } from "../redux/hooks";
 import { setUser } from "../redux/features/userSlice";
+import { DropResult } from "react-beautiful-dnd";
 
 function useCreateListing() {
   const dispatch = useAppDispatch();
@@ -30,6 +35,15 @@ function useCreateListing() {
     }
     setFiles(updateFileList(files, fileToRemove));
   };
+
+  const addFiles = (filesToAdd: FileList) => {
+    setFiles(addFileToList(files, filesToAdd));
+  };
+
+  function handleOnDragEnd(result: DropResult) {
+    if (!files) return;
+    setFiles(sortFileList(files, result));
+  }
 
   // manage controlled form state
   const handleFormChange = (
@@ -69,20 +83,24 @@ function useCreateListing() {
         })
         .catch(() => {
           setFileUploadError("Unexpected error occurred");
-        })
-      
+        });
     }
     try {
       setError("");
-      const res = await fetch("/api/property/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...formData, imageUrls: images
-        }),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/api/property/create`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...formData,
+            imageUrls: images,
+          }),
+        }
+      );
       const data = await res.json();
       setLoading(false);
       setFiles(undefined);
@@ -100,10 +118,11 @@ function useCreateListing() {
     }
   };
   return {
-    setFiles,
     handleSubmit,
     removeFile,
     handleFormChange,
+    addFiles,
+    handleOnDragEnd,
     fileUploadError,
     formData,
     loading,
