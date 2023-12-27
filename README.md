@@ -72,3 +72,4 @@ Create a `.env` file in the `client` folder with the following content:
  Create a `.env` file in the `root` folder with the following content:
 - MONGODB_URI=YOUR_MONGODB_URI
 - JWT_SECRET=YOUR_JWT_SECRET
+- JWT_REFRESH_SECRET = YOUR_JWT_SECRET
