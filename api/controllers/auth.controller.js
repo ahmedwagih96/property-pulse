@@ -19,7 +19,7 @@ const signup = async (req, res) => {
     const newUser = new User({ username, email, password: hashedPassword })
     await newUser.save();
 
-    const user = await User.findOne({ email }).select("-password").populate("properties");
+    const user = await User.findOne({ email }).populate("properties");
     // generate the token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
@@ -33,7 +33,7 @@ const signin = async (req, res) => {
     const { email, password } = req.body;
 
     // Check if user exists
-    let user = await User.findOne({ email })
+    let user = await User.findOne({ email }).select("+password")
     if (!user) {
         return res.status(StatusCodes.NOT_FOUND).json({ message: `${email} is not found!`, success: false })
     }
@@ -45,7 +45,7 @@ const signin = async (req, res) => {
     // generate the token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
-    user = await User.findOne({ email }).select("-password").populate("properties");
+    user = await User.findOne({ email }).populate("properties");
     // response to client
     res.cookie('access_token', token, { httpOnly: true }).status(StatusCodes.OK).json({ message: 'Signed In Successfully', user, success: true })
 
@@ -53,7 +53,7 @@ const signin = async (req, res) => {
 
 const google = async (req, res, next) => {
     // Find if user already exists 
-    const user = await User.findOne({ email: req.body.email }).select("-password").populate("properties")
+    const user = await User.findOne({ email: req.body.email }).populate("properties")
     // If user exists (sign in the user)
     if (user) {
         // generate the token
@@ -80,7 +80,7 @@ const google = async (req, res, next) => {
         });
         await newUser.save();
         // generate the token
-        newUser = await User.findOne({ email }).select("-password")
+        newUser = await User.findOne({ email })
         const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
 
         // response to client

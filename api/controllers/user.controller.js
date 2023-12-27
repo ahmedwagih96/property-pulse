@@ -4,10 +4,10 @@ const { StatusCodes } = require("http-status-codes");
 const { Property } = require('../models/property.model.js');
 
 const getUser = async (req, res) => {
-    const user = await User.findById(req.params.id).select('-password').populate({
+    const user = await User.findById(req.params.id).populate({
         path: 'properties',
         options: { sort: { createdAt: -1 } },
-        populate: { path: 'user', select: '-password' }
+        populate: { path: 'user'}
     });
     if (!user) {
         return res.status(StatusCodes.NOT_FOUND).json({ message: "user not found" })
@@ -29,7 +29,7 @@ const updateUser = async (req, res) => {
     }
     const updatedUser = await User.findByIdAndUpdate({ _id: req.params.id },
         { $set: updateFields },
-        { new: true }).select("-password");
+        { new: true })
     res.status(StatusCodes.OK).json({ user: updatedUser, message: 'User updated Successfully', success: true })
 }
 

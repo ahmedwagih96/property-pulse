@@ -23,7 +23,7 @@ const getAllProperties = async (req, res) => {
 
     results = results.skip(skip).limit(limit)
 
-    const properties = await results.populate("user", ['-password']);
+    const properties = await results.populate("user");
 
     const count = await Property.find(queries).count()
 
@@ -32,7 +32,7 @@ const getAllProperties = async (req, res) => {
 }
 
 const getProperty = async (req, res) => {
-    const property = await Property.findById(req.params.id).select(['-_id', '-createdAt', '-updatedAt', '-__v']).populate("user", ['-password'])
+    const property = await Property.findById(req.params.id).select(['-_id', '-createdAt', '-updatedAt', '-__v']).populate("user")
     if (!property) {
         return res.status(StatusCodes.NOT_FOUND).json({ message: 'Property not found' })
     }
