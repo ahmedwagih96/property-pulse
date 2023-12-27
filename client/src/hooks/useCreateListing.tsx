@@ -15,8 +15,9 @@ import { validateCreateListingForm } from "../utils/formValidations";
 import { useAppDispatch } from "../redux/hooks";
 import { setUser } from "../redux/features/userSlice";
 import { DropResult } from "react-beautiful-dnd";
-
+import useAuthentication from "./useAuthentication";
 function useCreateListing() {
+  const { refreshToken } = useAuthentication();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   // state
@@ -68,54 +69,59 @@ function useCreateListing() {
       return;
     }
     setLoading(true);
-    const images: string[] = [];
-    for (let i = 0; i < files.length; i++) {
-      await uploadImage(files[i])
-        .then((result) => {
-          if (result.downloadURL) {
-            images.push(result.downloadURL as string);
-          } else {
-            const errorMessage = result.error
-              ? result.error.message
-              : "Unknown error";
-            setFileUploadError(errorMessage);
-          }
-        })
-        .catch(() => {
-          setFileUploadError("Unexpected error occurred");
-        });
-    }
-    try {
-      setError("");
-      const res = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/api/property/create`,
-        {
+
+    refreshToken().then(async (result) => {
+      if (!result?.isAuthenticated) {
+        setLoading(false);
+        return;
+      }
+      const images: string[] = [];
+      for (let i = 0; i < files.length; i++) {
+        await uploadImage(files[i])
+          .then((result) => {
+            if (result.downloadURL) {
+              images.push(result.downloadURL as string);
+            } else {
+              const errorMessage = result.error
+                ? result.error.message
+                : "Unknown error";
+              setFileUploadError(errorMessage);
+            }
+          })
+          .catch(() => {
+            setFileUploadError("Unexpected error occurred");
+          });
+      }
+      try {
+        setError("");
+        const res = await fetch(`/api/property/create`, {
           method: "POST",
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            authorization: `Bearer ${result.accessToken}`,
           },
           body: JSON.stringify({
             ...formData,
             imageUrls: images,
           }),
+        });
+        const data = await res.json();
+        setLoading(false);
+        setFiles(undefined);
+        setFormData(initialListingDataForm);
+        if (!data.success) {
+          setError(data.message);
         }
-      );
-      const data = await res.json();
-      setLoading(false);
-      setFiles(undefined);
-      setFormData(initialListingDataForm);
-      if (!data.success) {
-        setError(data.message);
+        dispatch(setUser(data.user));
+        navigate(`/listing/${data.property._id}`);
+      } catch (error) {
+        setLoading(false);
+        if (error instanceof Error) {
+          setError(error.message);
+        }
       }
-      dispatch(setUser(data.user));
-      navigate(`/listing/${data.property._id}`);
-    } catch (error) {
-      setLoading(false);
-      if (error instanceof Error) {
-        setError(error.message);
-      }
-    }
+    });
   };
   return {
     handleSubmit,

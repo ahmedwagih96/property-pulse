@@ -3,7 +3,7 @@ import { SignUpForm } from "../types/typings";
 import { useNavigate } from "react-router-dom";
 // Redux
 import { useAppDispatch } from "../redux/hooks";
-import { setUser } from "../redux/features/userSlice";
+import { signIn } from "../redux/features/userSlice";
 function useSignUp() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -40,13 +40,17 @@ function useSignUp() {
     try {
       setError("");
       setLoading(true);
-      const res = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(authForm),
-      });
+      const res = await fetch(
+        `/api/auth/signup`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(authForm),
+        }
+      );
       const data = await res.json();
       setLoading(false);
       if (!data.success) {
@@ -54,7 +58,7 @@ function useSignUp() {
         return;
       }
       setAuthForm(initialState);
-      dispatch(setUser(data.user));
+      dispatch(signIn({ user: data.user, token: data.access_token }));
       navigate("/");
     } catch (error) {
       setLoading(false);

@@ -1,7 +1,7 @@
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import { app } from "../firebase";
 import { useAppDispatch } from "../redux/hooks";
-import { setUser } from "../redux/features/userSlice";
+import { signIn } from "../redux/features/userSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -27,7 +27,7 @@ function OAuth() {
         }),
       });
       const data = await res.json();
-      dispatch(setUser(data.user));
+      dispatch(signIn({ user: data.user, token: data.access_token }));
       navigate("/");
     } catch (error) {
       toast.error("could not sign in with google");

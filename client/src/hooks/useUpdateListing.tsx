@@ -18,9 +18,10 @@ import { setUser } from "../redux/features/userSlice";
 import { ListingDataForm } from "../types/typings";
 import { initialListingDataForm } from "../constants";
 import { toast } from "react-toastify";
-
+import useAuthentication from "./useAuthentication";
 function useUpdateListing() {
   const { currentUser } = useAppSelector((state) => state.user);
+  const { refreshToken } = useAuthentication();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const params = useParams();
@@ -31,7 +32,9 @@ function useUpdateListing() {
   useEffect(() => {
     const fetchListing = async () => {
       const id = params.id;
-      const res = await fetch(`/api/property/${id}`);
+      const res = await fetch(`/api/property/${id}`, {
+        credentials: "include",
+      });
       const data = await res.json();
       if (data.success === false) {
         toast.error(data.message);
@@ -44,7 +47,8 @@ function useUpdateListing() {
       setFormData(data.property);
     };
     fetchListing();
-  }, [params, currentUser, navigate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [fileUploadError, setFileUploadError] = useState<string>("");
   const [error, setError] = useState<string>("");
@@ -79,49 +83,60 @@ function useUpdateListing() {
       return;
     }
     setLoading(true);
-    if (files?.length) {
-      for (let i = 0; i < files.length; i++) {
-        await uploadImage(files[i])
-          .then((result) => {
-            if (result.downloadURL) {
-              formData.imageUrls.push(result.downloadURL);
-            } else {
-              const errorMessage = result.error
-                ? result.error.message
-                : "Unknown error";
-              setFileUploadError(errorMessage);
-            }
-          })
-          .catch(() => {
-            setFileUploadError("Unexpected error occurred");
-          });
+    refreshToken().then(async (result) => {
+      if (!result?.isAuthenticated) {
+        setLoading(false);
+        return;
       }
-    }
-    try {
-      setError("");
-      const id = params.id;
-      const res = await fetch(`/api/property/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...formData,
-        }),
-      });
-      const data = await res.json();
-      setLoading(false);
-      if (!data.success) {
-        setError(data.message);
+      if (files?.length) {
+        for (let i = 0; i < files.length; i++) {
+          await uploadImage(files[i])
+            .then((result) => {
+              if (result.downloadURL) {
+                formData.imageUrls.push(result.downloadURL);
+              } else {
+                const errorMessage = result.error
+                  ? result.error.message
+                  : "Unknown error";
+                setFileUploadError(errorMessage);
+              }
+            })
+            .catch(() => {
+              setFileUploadError("Unexpected error occurred");
+            });
+        }
       }
-      dispatch(setUser(data.user));
-      navigate(`/listing/${data.property._id}`);
-    } catch (error) {
-      setLoading(false);
-      if (error instanceof Error) {
-        setError(error.message);
+      try {
+        setError("");
+        const id = params.id;
+        const res = await fetch(
+          `/api/property/${id}`,
+          {
+            method: "PUT",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `Bearer ${result.accessToken}`,
+            },
+            body: JSON.stringify({
+              ...formData,
+            }),
+          }
+        );
+        const data = await res.json();
+        setLoading(false);
+        if (!data.success) {
+          setError(data.message);
+        }
+        dispatch(setUser(data.user));
+        navigate(`/listing/${data.property._id}`);
+      } catch (error) {
+        setLoading(false);
+        if (error instanceof Error) {
+          setError(error.message);
+        }
       }
-    }
+    });
   };
   return {
     setFiles,

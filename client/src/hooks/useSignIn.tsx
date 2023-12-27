@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { SignInForm } from "../types/typings";
 import { useAppDispatch } from "../redux/hooks";
-import { setUser } from "../redux/features/userSlice";
+import { signIn } from "../redux/features/userSlice";
 function useSignIn() {
   const dispatch = useAppDispatch();
   const initialState = {
@@ -30,8 +30,9 @@ function useSignIn() {
     }
     try {
       setLoading(true);
-      const res = await fetch("/api/auth/signin", {
+      const res = await fetch(`/api/auth/signin`, {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -45,7 +46,7 @@ function useSignIn() {
       }
       if (data.success) {
         setError("");
-        dispatch(setUser(data.user));
+        dispatch(signIn({ user: data.user, token: data.access_token }));
         setAuthForm(initialState);
       }
     } catch (error) {

@@ -18,24 +18,28 @@ function App() {
   return (
     <BrowserRouter>
       <Header />
-      <Suspense fallback={<LoadingSpinner/>}>
+      <Suspense fallback={<LoadingSpinner />}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/search" element={<Search />} />
           <Route
             path="/profile"
-            element={currentUser ? <Profile /> : <Navigate to="/" />}
+            element={currentUser ? <Profile /> : <Navigate to="/sign-in" />}
           />
           <Route path="/users/:id" element={<User />} />
           <Route path="/listing/:id" element={<Listing />} />
           <Route
             path="/create-listing"
-            element={currentUser ? <CreateListing /> : <Navigate to="/" />}
+            element={
+              currentUser ? <CreateListing /> : <Navigate to="/sign-in" />
+            }
           />
           <Route
             path="/update-listing/:id"
-            element={currentUser ? <UpdateListing /> : <Navigate to="/" />}
+            element={
+              currentUser ? <UpdateListing /> : <Navigate to="/sign-in" />
+            }
           />
           <Route
             path="/sign-in"
