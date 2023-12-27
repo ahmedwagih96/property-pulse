@@ -4,7 +4,7 @@ function LoadingSkeletons({ number }: { number: number }) {
       {[...Array(number)].map((_, index) => (
         <div
           key={index}
-          className="animate-pulse bg-white hover:shadow-lg transition-shadow rounded-lg w-full sm:w-[330px] p-3 flex flex-col gap-3"
+          className="animate-pulse bg-white hover:shadow-lg transition-shadow rounded-lg p-3 grid gap-8 grid-cols-[repeat(auto-fill,minmax(250px,1fr))]"
         >
           <div className="bg-gray-300 h-[320px] sm:h-[220px] w-full object-cover hover:scale-105 transition-scale duration-300"></div>
           <div>

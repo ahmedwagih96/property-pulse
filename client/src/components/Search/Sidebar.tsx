@@ -14,8 +14,8 @@ function Sidebar({
   loading,
 }: SidebarProps) {
   return (
-    <aside className="p-7  border-b-2 md:border-r-2 xl:min-h-screen">
-      <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
+    <aside className="p-4 md:p-7  border-b-2 md:border-r-2 xl:min-h-full">
+      <form className="flex flex-col gap-4 md:gap-8" onSubmit={handleSubmit}>
         <div className="flex items-center gap-2">
           <label className="whitespace-nowrap font-semibold">
             Search Property:
@@ -82,7 +82,7 @@ function Sidebar({
         </div>
         <button
           disabled={loading}
-          className="bg-slate-700 text-white px-3 py-2 rounded-lg uppercase hover:opacity-95 w-fit m-auto"
+          className="bg-slate-700 text-white px-4 py-2 rounded-lg uppercase hover:opacity-95 w-fit m-auto"
         >
           {loading ? "Searching..." : "Search"}
         </button>

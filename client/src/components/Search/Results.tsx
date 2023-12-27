@@ -16,11 +16,8 @@ function Results({
   count
 }: ResultsProps) {
   return (
-    <div className="flex-1 relative">
-      <h1 className="text-3xl font-semibold border-b p-3 text-slate-700 mt-5">
-        Listing results:
-      </h1>
-      <div className="p-7 flex flex-wrap gap-4">
+    <div className="flex-1 relative p-4 flex flex-col">
+      <div className="grid gap-8 grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
         {loading ? <LoadingSkeletons number={8} /> : null}
         {!loading && listings.length === 0 ? (
           <p className="text-xl text-slate-700">No listing found!</p>

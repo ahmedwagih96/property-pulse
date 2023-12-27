@@ -5,12 +5,14 @@ import { Landlord } from ".";
 
 export default function ListingItem({ listing }: { listing: ListingsType }) {
   return (
-    <div className="bg-white  hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-full sm:w-[330px] p-3 flex flex-col gap-3">
-      <img
-        src={listing.imageUrls[0]}
-        alt="listing cover"
-        className="h-[320px] sm:h-[220px] w-full object-cover hover:scale-105 transition-scale duration-300"
-      />
+    <div className="bg-white hover:shadow-lg transition-shadow overflow-hidden rounded-lg p-3 flex flex-col gap-3">
+      <div className="w-full h-[220px]">
+        <img
+          src={listing.imageUrls[0]}
+          alt="listing cover"
+          className=" w-full max-h-full object-cover hover:scale-105 transition-scale duration-300"
+        />
+      </div>
       <Landlord listing={listing} />
       <div className="flex flex-col gap-2 w-full">
         <p className="truncate text-lg font-semibold text-slate-700">

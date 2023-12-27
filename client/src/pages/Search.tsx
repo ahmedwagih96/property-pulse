@@ -14,7 +14,7 @@ export default function Search() {
 
 
   return (
-    <main className="flex flex-col xl:flex-row">
+    <main className="flex flex-col md:flex-row min-h-[calc(100vh-72px)] max-w-6xl mx-auto">
       <Seo
         description="Discover a wide range of properties with Property Pulse's powerful search feature. Find your dream home, explore rental options, or discover investment opportunities in the most sought-after neighborhoods. Start your property search journey now!"
         title="Search"

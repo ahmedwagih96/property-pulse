@@ -10,7 +10,7 @@ const Pagination = ({ count }: { count: number }) => {
     getPath,
   } = usePagination(count);
   return (
-    <div className="flex items-center justify-center p-5 mb-20">
+    <div className="flex items-center justify-center p-5 mb-2 mt-auto">
       <Link
         to={getPath(currentPage - 1)}
         className={`h-[40px] border-2 border-gray-300 flex justify-center items-center text-lg font-bold text-dark-color cursor-pointer rounded-l-lg w-max-content px-7 ${

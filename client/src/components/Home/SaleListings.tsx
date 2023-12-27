@@ -25,9 +25,9 @@ function SaleListings() {
       <h2 className="my-3 text-2xl font-semibold text-slate-600">
         Recent places for sale
       </h2>
-      <div className="flex flex-wrap gap-4">
+      <div className="grid gap-8 grid-cols-[repeat(auto-fill,minmax(350px,1fr))]">
         {loading ? (
-          <LoadingSkeletons number={4} />
+          <LoadingSkeletons number={3} />
         ) : saleListings && saleListings.length > 0 ? (
           saleListings.map((listing) => (
             <ListingItem listing={listing} key={listing._id} />
