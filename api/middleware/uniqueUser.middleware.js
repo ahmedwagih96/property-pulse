@@ -2,7 +2,7 @@ const ConflictError = require('../errors/conflict.error.js');
 const { User } = require('../models/user.model.js');
 const { StatusCodes } = require("http-status-codes");
 // Check if Unique User
-async function uniqueUser(req, res, next) {
+async function UniqueUserMiddleware(req, res, next) {
     const { username, email } = req.body;
     let isUserNameTaken = await User.findOne({ username });
     if (isUserNameTaken && isUserNameTaken.id !== req.params.id) {
@@ -16,4 +16,4 @@ async function uniqueUser(req, res, next) {
     next()
 }
 
-module.exports = { uniqueUser }
+module.exports = UniqueUserMiddleware

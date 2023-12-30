@@ -3,8 +3,7 @@ require("express-async-errors");
 const connectDB = require('./db/connect')
 const xss = require('xss-clean')
 const hpp = require('hpp');
-const { errorHandler } = require('./middleware/error');
-const { notFound } = require('./middleware/not-found.js')
+const { ErrorHandlerMiddleware, NotFoundMiddleware } = require('./middleware');
 const cookieParser = require('cookie-parser')
 const express = require('express');
 const path = require('path')
@@ -28,8 +27,9 @@ const staticPath = path.join(__dirname, '../client/dist');
 app.use(express.static(staticPath));
 
 // Middleware
-app.use(notFound);
-app.use(errorHandler);
+app.use(NotFoundMiddleware)
+app.use(ErrorHandlerMiddleware);
+
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(staticPath, 'index.html'));

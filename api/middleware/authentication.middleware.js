@@ -1,9 +1,8 @@
-const { StatusCodes } = require('http-status-codes');
 const jwt = require('jsonwebtoken');
 const RefreshToken = require('../models/refreshToken.model');
 const { UnauthorizedError, UnauthenticatedError } = require('../errors');
 
-const verifyToken = (req, res, next) => {
+const VerifyTokenMiddleware = (req, res, next) => {
     const authHeader = req.headers['authorization'];
     if (!authHeader) {
         throw new UnauthenticatedError("Access Denied")
@@ -20,8 +19,8 @@ const verifyToken = (req, res, next) => {
 
 
 // Verify Token & User 
-function verifyTokenAndUser(req, res, next) {
-    verifyToken(req, res, () => {
+function VerifyTokenAndUserMiddleware(req, res, next) {
+    VerifyTokenMiddleware(req, res, () => {
         if (req.user.userId === req.params.id) {
             next();
         } else {
@@ -30,7 +29,8 @@ function verifyTokenAndUser(req, res, next) {
     })
 }
 
-async function verifyRefreshToken(req, res, next) {
+async function VerifyRefreshTokenMiddleware
+(req, res, next) {
     const token = req.cookies.jwt
     if (!token) {
         throw new UnauthenticatedError("Access Denied")
@@ -52,4 +52,5 @@ async function verifyRefreshToken(req, res, next) {
     }
 }
 
-module.exports = { verifyToken, verifyTokenAndUser, verifyRefreshToken }
+module.exports = { VerifyTokenMiddleware, VerifyTokenAndUserMiddleware, VerifyRefreshTokenMiddleware
+ }
