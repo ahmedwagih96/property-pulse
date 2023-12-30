@@ -4,6 +4,7 @@ const connectDB = require('./db/connect')
 const xss = require('xss-clean')
 const hpp = require('hpp');
 const { errorHandler } = require('./middleware/error');
+const { notFound } = require('./middleware/not-found.js')
 const cookieParser = require('cookie-parser')
 const express = require('express');
 const path = require('path')
@@ -26,7 +27,8 @@ app.use('/api/property', require('./routes/property.route.js'))
 const staticPath = path.join(__dirname, '../client/dist');
 app.use(express.static(staticPath));
 
-// Error Handler Middleware
+// Middleware
+app.use(notFound);
 app.use(errorHandler);
 
 app.get('*', (req, res) => {

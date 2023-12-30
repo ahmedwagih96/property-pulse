@@ -3,21 +3,12 @@ const { StatusCodes } = require("http-status-codes")
 const bcryptjs = require('bcryptjs')
 const RefreshToken = require('../models/refreshToken.model.js');
 const { createAccessToken, createRefreshToken, validateRefreshToken } = require('../utils/tokens.js');
+const ConflictError = require('../errors/conflict.error.js');
+const NotFoundError = require('../errors/notFound.error.js');
+const UnauthorizedError = require('../errors/unauthorized.error.js');
 
 const signup = async (req, res) => {
     const { username, email, password } = req.body;
-
-    // Check if the username is taken
-    let isUserNameTaken = await User.findOne({ username });
-    if (isUserNameTaken) {
-        return res.status(StatusCodes.CONFLICT).json({ message: `${username} is already used by another user`, success: false })
-    }
-
-    // Check if the email is taken
-    let isEmailTaken = await User.findOne({ email });
-    if (isEmailTaken) {
-        return res.status(StatusCodes.CONFLICT).json({ message: `${email} is already used by another account`, success: false })
-    }
 
     // hash the password
     const hashedPassword = bcryptjs.hashSync(password, 10);
@@ -45,13 +36,13 @@ const signin = async (req, res) => {
     // Check if user exists
     let user = await User.findOne({ email }).select("+password")
     if (!user) {
-        return res.status(StatusCodes.NOT_FOUND).json({ message: `${email} is not found!`, success: false })
+        throw new UnauthorizedError('Wrong Credentials')
     }
 
     // validate the password
     const isValidPassword = bcryptjs.compareSync(password, user.password);
     if (!isValidPassword) {
-        return res.status(StatusCodes.UNAUTHORIZED).json({ message: `Wrong Credentials`, success: false })
+        throw new UnauthorizedError('Wrong Credentials')
     }
 
     // Create Access and Refresh Tokens 

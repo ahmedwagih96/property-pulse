@@ -3,6 +3,7 @@ const { User } = require('../models/user.model.js');
 const { StatusCodes } = require("http-status-codes");
 const { Property } = require('../models/property.model.js');
 const RefreshToken = require('../models/refreshToken.model.js');
+const { NotFoundError } = require('../errors')
 const getUser = async (req, res) => {
     const user = await User.findById(req.params.id).populate({
         path: 'properties',
@@ -10,7 +11,7 @@ const getUser = async (req, res) => {
         populate: { path: 'user' }
     });
     if (!user) {
-        return res.status(StatusCodes.NOT_FOUND).json({ message: "user not found" })
+        throw new NotFoundError("User Not Found");
     }
     res.status(StatusCodes.OK).json({ user, success: true })
 }
@@ -37,7 +38,7 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
     const user = await User.findById(req.params.id);
     if (!user) {
-        return res.status(StatusCodes.NOT_FOUND).json({ message: "user not found" })
+        throw new NotFoundError("User Not Found");
     }
     // Delete all Properties created by the user 
     await Property.deleteMany({ user: user._id })
